@@ -11,6 +11,8 @@ import { Route, Routes } from "react-router-dom";
 import Navbar from "./Shared/Navbar";
 import { publicRoute } from "./Routes/publicRoute";
 import Footer from "./Shared/Footer";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import AddProduct from "./Pages/Dashboard/AddProduct";
 
 function App() {
     useEffect(() => {
@@ -26,6 +28,9 @@ function App() {
                 {publicRoute.map(({ path, Component }, index) => (
                     <Route key={index} path={path} element={<Component />} />
                 ))}
+                <Route path="/dashboard/" element={<Dashboard />}>
+                    <Route path="add-product" element={<AddProduct />} />
+                </Route>
             </Routes>
             <Footer />
         </div>

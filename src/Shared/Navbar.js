@@ -12,7 +12,7 @@ const Navbar = () => {
         return <Loading />;
     }
     const handleLogOut = () => {
-        signOut();
+        signOut(auth);
         navigate("/login");
     };
     const navbar = (
@@ -38,6 +38,7 @@ const Navbar = () => {
                     <NavLink to="/login">Login</NavLink>
                 )}
             </li>
+            <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
         </>
     );
     return (
