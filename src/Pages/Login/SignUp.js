@@ -17,11 +17,14 @@ const SignUp = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    // const [sendEmailVerification, sending, senEmailerror] =
+    //     useSendEmailVerification(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [createUserWithEmailAndPassword, user, loading, error] =
-        useCreateUserWithEmailAndPassword(auth);
-    const [sendEmailVerification, sending, senEmailerror] =
-        useSendEmailVerification(auth);
+        useCreateUserWithEmailAndPassword(auth, {
+            sendEmailVerification: true,
+        });
+
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
