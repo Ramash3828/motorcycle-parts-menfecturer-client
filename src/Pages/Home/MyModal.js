@@ -17,8 +17,8 @@ const MyModal = () => {
                         subscription to use Wikipedia for free!
                     </p>
                     <div className="modal-action">
-                        <label for="my-modal" className="btn">
-                            Yay!
+                        <label htmlFor="my-modal" className="btn">
+                            Submit
                         </label>
                     </div>
                 </div>

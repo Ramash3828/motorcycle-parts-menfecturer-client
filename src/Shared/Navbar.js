@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Link, Navigate, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
 import Loading from "./Loading/Loading";
 
@@ -13,7 +13,7 @@ const Navbar = () => {
     }
     const handleLogOut = () => {
         signOut();
-        Navigate("/login");
+        navigate("/login");
     };
     const navbar = (
         <>

@@ -7,7 +7,6 @@ import auth from "../../firebase.init";
 import SocialLogin from "../../Pages/Login/SocialLogin";
 import {
     useCreateUserWithEmailAndPassword,
-    useSendEmailVerification,
     useUpdateProfile,
 } from "react-firebase-hooks/auth";
 
