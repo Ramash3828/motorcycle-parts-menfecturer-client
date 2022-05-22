@@ -14,7 +14,10 @@ import Footer from "./Shared/Footer";
 
 function App() {
     useEffect(() => {
-        AOS.init();
+        AOS.init({
+            offset: 120,
+            duration: 400,
+        });
     }, []);
     return (
         <div>

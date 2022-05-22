@@ -27,11 +27,11 @@ const Navbar = () => {
         </>
     );
     return (
-        <header className="bg-accent sticky top-0 py-4">
+        <header className="bg-accent sticky top-0 py-4 z-50">
             <div className="flex justify-between flex-wrap  container mx-auto">
                 <div className="flex justify-between w-full md:w-0 items-center">
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
-                        Fuel-Parts Co.
+                        PHM Parts Co.
                     </Link>
                     <div className="dropdown">
                         <label tabIndex="0" className="btn btn-ghost md:hidden">
