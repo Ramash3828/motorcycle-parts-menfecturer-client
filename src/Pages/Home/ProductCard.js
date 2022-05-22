@@ -1,5 +1,6 @@
 import React from "react";
 import cardImg from "../../images/Spark-Plug-A7TC.jpg";
+import MyModal from "./MyModal";
 
 const ProductCard = () => {
     return (
@@ -10,17 +11,19 @@ const ProductCard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center  w-full gap-10 mt-11">
                 <div
                     data-aos="zoom-out-down"
-                    class="card w-auto bg-base-100 shadow-xl mx-auto"
+                    className="card w-auto bg-base-100 shadow-xl mx-auto"
                 >
-                    <figure class="px-10 pt-10">
+                    <figure className="px-10 pt-10">
                         <img
                             src={cardImg}
                             alt="Shoes"
-                            class="rounded-xl image-full"
+                            className="rounded-xl image-full"
                         />
                     </figure>
-                    <div class="card-body items-center text-center">
-                        <h2 class="card-title text-bold">Spark-Plug-A7TC</h2>
+                    <div className="card-body items-center text-center">
+                        <h2 className="card-title text-bold">
+                            Spark-Plug-A7TC
+                        </h2>
                         <div className="text-left">
                             <p>
                                 <strong>Disc:</strong> If a dog chews shoes
@@ -36,24 +39,31 @@ const ProductCard = () => {
                                 Price: <strong>$77</strong>
                             </p>
                         </div>
-                        <div class="mt-4">
-                            <button class="btn btn-primary">Place Order</button>
+                        <div className="mt-4">
+                            <label
+                                htmlFor="my-modal"
+                                className=" btn btn-primary"
+                            >
+                                Place Order
+                            </label>
                         </div>
                     </div>
                 </div>
                 <div
                     data-aos="zoom-out-down"
-                    class="card w-auto bg-base-100 shadow-xl mx-auto"
+                    className="card w-auto bg-base-100 shadow-xl mx-auto"
                 >
-                    <figure class="px-10 pt-10">
+                    <figure className="px-10 pt-10">
                         <img
                             src={cardImg}
                             alt="Shoes"
-                            class="rounded-xl image-full"
+                            className="rounded-xl image-full"
                         />
                     </figure>
-                    <div class="card-body items-center text-center">
-                        <h2 class="card-title text-bold">Spark-Plug-A7TC</h2>
+                    <div className="card-body items-center text-center">
+                        <h2 className="card-title text-bold">
+                            Spark-Plug-A7TC
+                        </h2>
                         <div className="text-left">
                             <p>
                                 <strong>Disc:</strong> If a dog chews shoes
@@ -69,24 +79,31 @@ const ProductCard = () => {
                                 Price: <strong>$77</strong>
                             </p>
                         </div>
-                        <div class="mt-4">
-                            <button class="btn btn-primary">Place Order</button>
+                        <div className="mt-4">
+                            <label
+                                htmlFor="my-modal"
+                                className=" btn btn-primary"
+                            >
+                                Place Order
+                            </label>
                         </div>
                     </div>
                 </div>
                 <div
                     data-aos="zoom-out-down"
-                    class="card w-auto bg-base-100 shadow-xl mx-auto"
+                    className="card w-auto bg-base-100 shadow-xl mx-auto"
                 >
-                    <figure class="px-10 pt-10">
+                    <figure className="px-10 pt-10">
                         <img
                             src={cardImg}
                             alt="Shoes"
-                            class="rounded-xl image-full"
+                            className="rounded-xl image-full"
                         />
                     </figure>
-                    <div class="card-body items-center text-center">
-                        <h2 class="card-title text-bold">Spark-Plug-A7TC</h2>
+                    <div className="card-body items-center text-center">
+                        <h2 className="card-title text-bold">
+                            Spark-Plug-A7TC
+                        </h2>
                         <div className="text-left">
                             <p>
                                 <strong>Disc:</strong> If a dog chews shoes
@@ -102,12 +119,19 @@ const ProductCard = () => {
                                 Price: <strong>$77</strong>
                             </p>
                         </div>
-                        <div class="mt-4">
-                            <button class="btn btn-primary">Place Order</button>
+                        <div className="mt-4">
+                            <label
+                                htmlFor="my-modal"
+                                className="mt-4 btn btn-primary"
+                            >
+                                Place Order
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <MyModal />
         </div>
     );
 };
