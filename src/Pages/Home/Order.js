@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
-const MyModal = ({ item }) => {
+const MyOrder = ({ item }) => {
     const [user] = useAuthState(auth);
     const { name, price, img, desc, quantity } = item;
     const [sold, setSold] = useState(100);
     const [errorInfo, setErrorInfo] = useState(false);
+    const navigate = useNavigate();
 
     const addProduct = (event) => {
         event.preventDefault();
-        if (sold > quantity || sold < 100) {
+        if (sold > Number(quantity) || sold < 100) {
             return setErrorInfo(!errorInfo);
         } else {
             setErrorInfo(false);
@@ -37,13 +39,14 @@ const MyModal = ({ item }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 if (data.result.insertedId) {
                     toast.success(data.message);
+                    navigate("/");
                     setSold(100);
                 }
             });
     };
+
     return (
         <div>
             <input type="checkbox" id="my-modal" className="modal-toggle" />
@@ -75,12 +78,16 @@ const MyModal = ({ item }) => {
                             <form onSubmit={addProduct} className="mt-3">
                                 <input
                                     onChange={(e) => setSold(e.target.value)}
-                                    value={sold}
+                                    value={Number(sold)}
                                     type="number"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                 />
                                 <input
-                                    disabled={errorInfo}
+                                    disabled={
+                                        sold < 100 || sold > Number(quantity)
+                                            ? true
+                                            : false
+                                    }
                                     className="btn btn-primary w-full"
                                     type="submit"
                                     value="Submit"
@@ -89,7 +96,11 @@ const MyModal = ({ item }) => {
                         </div>
                     </div>
                     <div className="modal-action">
-                        <label htmlFor="my-modal" className="btn">
+                        <label
+                            onClick={() => setSold(100)}
+                            htmlFor="my-modal"
+                            className="btn"
+                        >
                             Close
                         </label>
                     </div>
@@ -99,4 +110,4 @@ const MyModal = ({ item }) => {
     );
 };
 
-export default MyModal;
+export default MyOrder;

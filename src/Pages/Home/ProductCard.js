@@ -14,7 +14,6 @@ const ProductCard = () => {
         return <Loading />;
     }
 
-    console.log(products);
     return (
         <>
             <div className="container text-center py-11">

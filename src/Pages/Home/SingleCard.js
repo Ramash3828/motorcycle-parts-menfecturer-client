@@ -1,6 +1,9 @@
 import React from "react";
 
 const SingleCard = ({ product, setItem }) => {
+    const handleOrder = () => {
+        setItem(product);
+    };
     return (
         <div
             key={product._id}
@@ -35,7 +38,7 @@ const SingleCard = ({ product, setItem }) => {
                 </div>
                 <div className="mt-4">
                     <label
-                        onClick={() => setItem(product)}
+                        onClick={handleOrder}
                         htmlFor="my-modal"
                         className=" btn btn-primary"
                     >
