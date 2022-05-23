@@ -15,18 +15,17 @@ const Login = () => {
     } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
+    const token = useToken(user);
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    const [token] = useToken(user);
 
     useEffect(() => {
         if (user) {
-            console.log(user);
             navigate(from, { replace: true });
         }
-    }, [from, navigate, user, token]);
+    }, [from, navigate, token, user]);
 
     if (loading) {
         return <Loading></Loading>;

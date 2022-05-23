@@ -13,6 +13,7 @@ import { publicRoute } from "./Routes/publicRoute";
 import Footer from "./Shared/Footer";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import AddProduct from "./Pages/Dashboard/AddProduct";
+import RequireAuth from "./RequireAuth";
 
 function App() {
     useEffect(() => {
@@ -28,8 +29,10 @@ function App() {
                 {publicRoute.map(({ path, Component }, index) => (
                     <Route key={index} path={path} element={<Component />} />
                 ))}
-                <Route path="/dashboard/" element={<Dashboard />}>
-                    <Route path="add-product" element={<AddProduct />} />
+                <Route element={<RequireAuth />}>
+                    <Route path="/dashboard/" element={<Dashboard />}>
+                        <Route path="add-product" element={<AddProduct />} />
+                    </Route>
                 </Route>
             </Routes>
             <Footer />

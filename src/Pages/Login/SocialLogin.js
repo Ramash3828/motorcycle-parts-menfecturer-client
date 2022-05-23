@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import Loading from "../../Shared/Loading/Loading";
+import useToken from "../../hooks/useToken";
 
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, googleError] =
         useSignInWithGoogle(auth);
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    const token = useToken(user);
     let errorInfo;
     if (googleError) {
         errorInfo = (
@@ -16,11 +19,12 @@ const SocialLogin = () => {
             </p>
         );
     }
+
     useEffect(() => {
         if (user) {
-            navigate("/");
+            navigate(from, { replace: true });
         }
-    }, [user, navigate]);
+    }, [from, navigate, user, token]);
     if (loading) {
         return <p>Loading....</p>;
     }

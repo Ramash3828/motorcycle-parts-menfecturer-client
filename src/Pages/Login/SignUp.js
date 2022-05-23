@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useToken from "../../hooks/useToken";
 import Loading from "../../Shared/Loading/Loading";
 import auth from "../../firebase.init";
 import SocialLogin from "../../Pages/Login/SocialLogin";
@@ -16,8 +15,7 @@ const SignUp = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    // const [sendEmailVerification, sending, senEmailerror] =
-    //     useSendEmailVerification(auth);
+
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [createUserWithEmailAndPassword, user, loading, error] =
         useCreateUserWithEmailAndPassword(auth, {
@@ -27,12 +25,12 @@ const SignUp = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    const [token] = useToken(user);
+
     useEffect(() => {
         if (user) {
             navigate(from, { replace: true });
         }
-    }, [from, navigate, user, token]);
+    }, [user, navigate, from]);
 
     if (loading || updating) {
         return <Loading></Loading>;
@@ -45,6 +43,7 @@ const SignUp = () => {
     const onSubmit = async (data) => {
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name });
+        navigate("/");
     };
     return (
         <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4">
