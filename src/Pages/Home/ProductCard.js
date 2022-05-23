@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import Loading from "../../Shared/Loading/Loading";
 import Order from "./Order";
 import SingleCard from "./SingleCard";
 
 const ProductCard = () => {
     const [item, setItem] = useState({});
-    const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/get-product`)
-            .then((res) => res.json())
-            .then((data) => setProducts(data));
-    }, []);
+    const { data: products, isloading } = useQuery("products", () =>
+        fetch(`http://localhost:5000/get-product`).then((res) => res.json())
+    );
+    if (isloading) {
+        return <Loading />;
+    }
 
+    console.log(products);
     return (
         <>
             <div className="container text-center py-11">
@@ -20,7 +22,7 @@ const ProductCard = () => {
                     Parts Recommended
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center  w-full gap-10 mt-11">
-                    {products.map((product, index) => (
+                    {products?.map((product, index) => (
                         <SingleCard
                             key={index}
                             product={product}

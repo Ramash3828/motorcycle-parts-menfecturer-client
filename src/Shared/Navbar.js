@@ -39,11 +39,9 @@ const Navbar = () => {
             </li>
             <li>
                 {user && (
-                    <NavLink to="/dashboard">
-                        <button className="btn btn-outline">
-                            {user.displayName}
-                        </button>
-                    </NavLink>
+                    <button className="btn btn-outline">
+                        {user.displayName}
+                    </button>
                 )}
             </li>
         </>
@@ -80,7 +78,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className="navbar-end hidden md:flex grow">
-                    <ul className="menu menu-horizontal p-0">{navbar}</ul>
+                    <ul className="menu menu-horizontal p-0 ">{navbar}</ul>
                 </div>
             </div>
         </header>

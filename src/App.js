@@ -14,6 +14,7 @@ import Footer from "./Shared/Footer";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import AddProduct from "./Pages/Dashboard/AddProduct";
 import RequireAuth from "./RequireAuth";
+import MyOrder from "./Pages/Dashboard/MyOrder";
 
 function App() {
     useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
                 <Route element={<RequireAuth />}>
                     <Route path="/dashboard/" element={<Dashboard />}>
                         <Route path="add-product" element={<AddProduct />} />
+                        <Route path="my-orders" element={<MyOrder />} />
                     </Route>
                 </Route>
             </Routes>
