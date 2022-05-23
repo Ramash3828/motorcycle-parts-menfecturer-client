@@ -29,8 +29,8 @@ const OrdersRow = ({ index, order, refetch }) => {
                 </div>
             </td>
             <td>{order.order}</td>
-            <td>{order.price}</td>
-            <td>{order.gradTotal}</td>
+            <td>${order.price}</td>
+            <td>${order.gradTotal}</td>
             <td>
                 <button onClick={handleDelete} className="btn btn-xs">
                     Delete

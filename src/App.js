@@ -15,6 +15,7 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import AddProduct from "./Pages/Dashboard/AddProduct";
 import RequireAuth from "./RequireAuth";
 import MyOrder from "./Pages/Dashboard/MyOrder";
+import ManageProduct from "./Pages/Dashboard/ManageProduct";
 
 function App() {
     useEffect(() => {
@@ -34,6 +35,10 @@ function App() {
                     <Route path="/dashboard/" element={<Dashboard />}>
                         <Route path="add-product" element={<AddProduct />} />
                         <Route path="my-orders" element={<MyOrder />} />
+                        <Route
+                            path="manage-all-product"
+                            element={<ManageProduct />}
+                        />
                     </Route>
                 </Route>
             </Routes>
