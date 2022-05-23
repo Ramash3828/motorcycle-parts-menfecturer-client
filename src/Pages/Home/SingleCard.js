@@ -19,9 +19,9 @@ const SingleCard = ({ product, setItem }) => {
                 <div className="text-left">
                     <p>
                         <strong>Disc:</strong>{" "}
-                        {product.desc.length > 30
-                            ? product.desc.slice(0, 25) + " [...]"
-                            : product.desc}
+                        {product?.desc.length > 20
+                            ? product?.desc.slice(0, 25) + " [...]"
+                            : product?.desc}
                     </p>
                     <p className="flex justify-between mt-2">
                         Minimum Order quantity: <strong>100</strong>

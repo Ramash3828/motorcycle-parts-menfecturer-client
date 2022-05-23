@@ -3,9 +3,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
-const MyModal = ({ item, setItem }) => {
+const MyModal = ({ item }) => {
     const [user] = useAuthState(auth);
-    const { name, price, img, quantity, desc } = item;
+    const { name, price, img, desc, quantity } = item;
     const [sold, setSold] = useState(100);
     const [errorInfo, setErrorInfo] = useState(false);
 
@@ -21,6 +21,7 @@ const MyModal = ({ item, setItem }) => {
         const orderBooking = {
             name: name,
             img: img,
+            desc: desc,
             price: price,
             order: sold,
             grandTotal: grandTotal,
@@ -57,7 +58,7 @@ const MyModal = ({ item, setItem }) => {
                                 {name}
                             </p>
                             <p>
-                                <strong>Description:</strong> {desc}{" "}
+                                <strong>Description:</strong> {desc}
                             </p>
                             <p className="my-2">
                                 <strong>Available Quantity:</strong>
@@ -79,6 +80,7 @@ const MyModal = ({ item, setItem }) => {
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                 />
                                 <input
+                                    disabled={errorInfo}
                                     className="btn btn-primary w-full"
                                     type="submit"
                                     value="Submit"

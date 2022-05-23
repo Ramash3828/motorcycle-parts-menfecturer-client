@@ -3,7 +3,6 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import auth from "../firebase.init";
-import Loading from "./Loading/Loading";
 
 const Navbar = () => {
     const [user] = useAuthState(auth);
@@ -41,7 +40,7 @@ const Navbar = () => {
             <li>
                 {user && (
                     <NavLink to="/dashboard">
-                        <button class="btn btn-outline">
+                        <button className="btn btn-outline">
                             {user.displayName}
                         </button>
                     </NavLink>

@@ -8,7 +8,7 @@ const ProductCard = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/add-product`)
+        fetch(`http://localhost:5000/get-product`)
             .then((res) => res.json())
             .then((data) => setProducts(data));
     }, []);
@@ -29,7 +29,7 @@ const ProductCard = () => {
                     ))}
                 </div>
             </div>
-            {item && <Order setItem={setItem} item={item} />}
+            {item && <Order item={item} />}
         </>
     );
 };
