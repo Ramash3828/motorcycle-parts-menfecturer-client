@@ -6,14 +6,13 @@ import auth from "../firebase.init";
 import Loading from "./Loading/Loading";
 
 const Navbar = () => {
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const navigate = useNavigate();
-    if (loading) {
-        return <Loading />;
-    }
+
     const handleLogOut = () => {
         signOut(auth);
         navigate("/login");
+        localStorage.removeItem("accessToken");
     };
     const navbar = (
         <>
@@ -29,6 +28,7 @@ const Navbar = () => {
             <li>
                 <NavLink to="/myportfolio">My Portfolio</NavLink>
             </li>
+            <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
             <li>
                 {user ? (
                     <NavLink onClick={handleLogOut} to="/login">
@@ -38,7 +38,15 @@ const Navbar = () => {
                     <NavLink to="/login">Login</NavLink>
                 )}
             </li>
-            <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
+            <li>
+                {user && (
+                    <NavLink to="/dashboard">
+                        <button class="btn btn-outline">
+                            {user.displayName}
+                        </button>
+                    </NavLink>
+                )}
+            </li>
         </>
     );
     return (

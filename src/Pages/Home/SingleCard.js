@@ -27,10 +27,10 @@ const SingleCard = ({ product, setItem }) => {
                         Minimum Order quantity: <strong>100</strong>
                     </p>
                     <p className="flex justify-between">
-                        Available quantity: <strong>{product.price}</strong>
+                        Available quantity: <strong>{product.quantity}</strong>
                     </p>
                     <p className="flex justify-between">
-                        Price: <strong>$77</strong>
+                        Price (per 1 product): <strong>${product.price}</strong>
                     </p>
                 </div>
                 <div className="mt-4">

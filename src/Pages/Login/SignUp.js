@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../Shared/Loading/Loading";
 import auth from "../../firebase.init";
 import SocialLogin from "../../Pages/Login/SocialLogin";
+import useToken from "../../hooks/useToken";
 import {
     useCreateUserWithEmailAndPassword,
     useUpdateProfile,
@@ -21,7 +22,7 @@ const SignUp = () => {
         useCreateUserWithEmailAndPassword(auth, {
             sendEmailVerification: true,
         });
-
+    const token = useToken(user);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -30,7 +31,7 @@ const SignUp = () => {
         if (user) {
             navigate(from, { replace: true });
         }
-    }, [user, navigate, from]);
+    }, [user, navigate, from, token]);
 
     if (loading || updating) {
         return <Loading></Loading>;

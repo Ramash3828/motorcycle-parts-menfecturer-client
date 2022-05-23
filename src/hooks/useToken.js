@@ -12,7 +12,7 @@ const useToken = (user) => {
         };
 
         if (email) {
-            fetch(`http://localhost:5000/user/${email}`, {
+            fetch(`http://localhost:5000/add-user/${email}`, {
                 method: "PUT",
                 body: JSON.stringify(currentUser),
                 headers: {
@@ -21,7 +21,6 @@ const useToken = (user) => {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data.token);
                     const accessToken = data?.token;
                     localStorage.setItem("accessToken", accessToken);
                     setToken(accessToken);

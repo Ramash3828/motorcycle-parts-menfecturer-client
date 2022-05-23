@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import MyModal from "./MyModal";
+import Order from "./Order";
 import SingleCard from "./SingleCard";
 
 const ProductCard = () => {
@@ -29,7 +29,7 @@ const ProductCard = () => {
                     ))}
                 </div>
             </div>
-            <MyModal item={item} />
+            {item && <Order setItem={setItem} item={item} />}
         </>
     );
 };
