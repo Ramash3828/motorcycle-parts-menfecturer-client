@@ -1,0 +1,28 @@
+img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline;
+    margin: auto;
+}
+
+.person {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.designation {
+    letter-spacing: 1px;
+    color: blueviolet;
+    font-weight: bold;
+}
+
+/* Counter */
+
+#value {
+    font-size: 60px;
+    font-weight: bold;
+}
