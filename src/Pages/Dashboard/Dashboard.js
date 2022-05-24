@@ -1,4 +1,5 @@
 import React from "react";
+
 import { NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
@@ -41,6 +42,11 @@ const Dashboard = () => {
                         <li>
                             <NavLink to="/dashboard/manage-all-product">
                                 Manage all Product
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/add-review/:id">
+                                Add Review
                             </NavLink>
                         </li>
                     </ul>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const OrdersRow = ({ index, order, refetch }) => {
@@ -38,6 +39,9 @@ const OrdersRow = ({ index, order, refetch }) => {
                     className="btn btn-xs bg-red-400"
                 >
                     Delete
+                </button>
+                <button className="btn btn-xs bg-purple-500">
+                    <Link to={`/dashboard/add-review/${_id}`}>Review</Link>
                 </button>
             </td>
         </tr>

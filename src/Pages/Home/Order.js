@@ -8,13 +8,14 @@ const MyOrder = ({ item }) => {
     const [user] = useAuthState(auth);
     const { name, price, img, desc, quantity } = item;
     const [sold, setSold] = useState(100);
-    const [userEmail, setUserEmail] = useState(user?.email);
-    const [userName, setUserName] = useState(user?.displayName);
-    const [productPrice, setProductPrice] = useState(price);
-    const [proQuantity, setProQuantity] = useState(quantity);
+
+    // const [userEmail, setUserEmail] = useState(user?.email);
+    // const [userName, setUserName] = useState(user?.displayName);
+    // const [productPrice, setProductPrice] = useState(price);
+    // const [proQuantity, setProQuantity] = useState(quantity);
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
-    const [errorInfo, setErrorInfo] = useState(false);
+    const [errorInfo, setErrorInfo] = useState(true);
     const navigate = useNavigate();
 
     const addProduct = (event) => {
@@ -31,7 +32,9 @@ const MyOrder = ({ item }) => {
             img: img,
             address: address,
             phone: phone,
+            desc: desc,
             price: price,
+            quantity: quantity,
             order: sold,
             grandTotal: grandTotal,
             userName: user.displayName,
@@ -87,11 +90,13 @@ const MyOrder = ({ item }) => {
                             )}
                             <form onSubmit={addProduct} className="mt-3">
                                 <input
+                                    readOnly
                                     value={user?.displayName}
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                 />
                                 <input
+                                    readOnly
                                     value={user?.email}
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
@@ -115,6 +120,7 @@ const MyOrder = ({ item }) => {
                                         <small>Available Quantity</small>
                                     </label>
                                     <input
+                                        readOnly
                                         value={quantity}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
@@ -125,6 +131,7 @@ const MyOrder = ({ item }) => {
                                         <small>Product Price (Per piece)</small>
                                     </label>
                                     <input
+                                        readOnly
                                         value={price}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
