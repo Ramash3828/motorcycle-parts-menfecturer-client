@@ -3,9 +3,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import auth from "../../firebase.init";
 import ReactStars from "react-rating-stars-component";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import Loading from "../../Shared/Loading/Loading";
+import { toast } from "react-toastify";
 
 const MyReview = () => {
     const [user] = useAuthState(auth);
@@ -13,6 +14,7 @@ const MyReview = () => {
     const [ratings, setRatings] = useState(0);
 
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const { data: products, isLoading } = useQuery("product", () =>
         fetch(`http://localhost:5000/my-orders/${user.email}`).then((res) =>
@@ -36,15 +38,29 @@ const MyReview = () => {
     };
 
     const onSubmit = (data) => {
-        const review = {};
-        const url = `http://localhost:5000/add-review/${user?.email}`;
+        const review = {
+            email: data.userEmail,
+            userName: data.userName,
+            productName: data.productName,
+            desc: data.desc,
+            img: product?.img,
+            ratings: ratings,
+            reviewCount: 1,
+        };
+        const url = `http://localhost:5000/add-review/${product?._id}`;
         fetch(url, {
-            method: "POST",
-            body: JSON.stringify(orderBooking),
+            method: "PUT",
+            body: JSON.stringify(review),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
             },
-        });
+        })
+            .then((res) => res.json())
+            .then((reviewData) => {
+                console.log(reviewData);
+                toast.success(reviewData.message);
+                navigate("/dashboard/my-orders");
+            });
     };
 
     if (isLoading) {
@@ -162,3 +178,10 @@ const MyReview = () => {
 };
 
 export default MyReview;
+/**
+acknowledged: true
+matchedCount: 0
+modifiedCount: 0
+upsertedCount: 1
+upsertedId: "628d1cdf2786e802d79fc508"
+*/

@@ -40,6 +40,7 @@ const OrdersRow = ({ index, order, refetch }) => {
                 >
                     Delete
                 </button>
+
                 <button className="btn btn-xs bg-purple-500">
                     <Link to={`/dashboard/add-review/${_id}`}>Review</Link>
                 </button>
