@@ -26,10 +26,12 @@ const ManageProduct = () => {
                             <th>SL.</th>
                             <th>Product Name</th>
                             <th>Picture</th>
-                            <th>Email</th>
                             <th>Order(QTY)</th>
                             <th>price</th>
-                            <th>Total</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Phone</th>
                             <th>Action</th>
                         </tr>
                     </thead>

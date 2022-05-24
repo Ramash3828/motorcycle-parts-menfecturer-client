@@ -8,6 +8,12 @@ const MyOrder = ({ item }) => {
     const [user] = useAuthState(auth);
     const { name, price, img, desc, quantity } = item;
     const [sold, setSold] = useState(100);
+    const [userEmail, setUserEmail] = useState(user?.email);
+    const [userName, setUserName] = useState(user?.displayName);
+    const [productPrice, setProductPrice] = useState(price);
+    const [proQuantity, setProQuantity] = useState(quantity);
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
     const [errorInfo, setErrorInfo] = useState(false);
     const navigate = useNavigate();
 
@@ -23,10 +29,12 @@ const MyOrder = ({ item }) => {
         const orderBooking = {
             name: name,
             img: img,
-            desc: desc,
+            address: address,
+            phone: phone,
             price: price,
             order: sold,
             grandTotal: grandTotal,
+            userName: user.displayName,
             email: user.email,
         };
         const url = `http://localhost:5000/add-order/`;
@@ -40,23 +48,23 @@ const MyOrder = ({ item }) => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.result.insertedId) {
-                    toast.success(data.message);
-                    navigate("/");
                     setSold(100);
+                    setAddress("");
+                    setPhone("");
+                    navigate("/dashboard/my-orders");
+                    toast.success(data.message);
                 }
             });
     };
 
     return (
-        <div>
+        <div className="w-full">
             <input type="checkbox" id="my-modal" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 justify-center">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 justify-center ">
                         <div className="mx-auto">
                             <img src={img} alt="name" />
-                        </div>
-                        <div className="mx-auto">
                             <p className="text-2xl text-secondary mb-4">
                                 {name}
                             </p>
@@ -70,6 +78,8 @@ const MyOrder = ({ item }) => {
                             <p>
                                 <strong>Price (per 1 product):</strong>${price}
                             </p>
+                        </div>
+                        <div className="mx-auto">
                             {errorInfo && (
                                 <p className="text-red-500">
                                     <small>No available products</small>
@@ -77,11 +87,63 @@ const MyOrder = ({ item }) => {
                             )}
                             <form onSubmit={addProduct} className="mt-3">
                                 <input
-                                    onChange={(e) => setSold(e.target.value)}
-                                    value={Number(sold)}
+                                    value={user?.displayName}
+                                    type="text"
+                                    className="input input-bordered input-info w-full max-w-xs mb-2"
+                                />
+                                <input
+                                    value={user?.email}
+                                    type="text"
+                                    className="input input-bordered input-info w-full max-w-xs mb-2"
+                                />
+                                <input
+                                    required
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    placeholder="Address"
+                                    type="text"
+                                    className="input input-bordered input-info w-full max-w-xs mb-2"
+                                />
+                                <input
+                                    required
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder="Phone Number"
                                     type="number"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                 />
+                                <div>
+                                    <label htmlFor="">
+                                        <small>Available Quantity</small>
+                                    </label>
+                                    <input
+                                        value={quantity}
+                                        type="number"
+                                        className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="">
+                                        <small>Product Price (Per piece)</small>
+                                    </label>
+                                    <input
+                                        value={price}
+                                        type="number"
+                                        className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="">
+                                        <small>Order Quantity</small>
+                                    </label>
+                                    <input
+                                        onChange={(e) =>
+                                            setSold(e.target.value)
+                                        }
+                                        value={Number(sold)}
+                                        type="number"
+                                        className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    />
+                                </div>
+
                                 <input
                                     disabled={
                                         sold < 100 || sold > Number(quantity)

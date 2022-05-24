@@ -23,7 +23,7 @@ const MyOrder = () => {
 
     return (
         <div>
-            <h2 className="text-secondary font-bold text-2xl">My Order</h2>
+            <h2 className="text-secondary font-bold text-2xl mb-3">My Order</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
@@ -33,7 +33,7 @@ const MyOrder = () => {
                             <th>Picture</th>
                             <th>Order(QTY)</th>
                             <th>price</th>
-                            <th>Total</th>
+                            <th>Product QTY</th>
                             <th>Action</th>
                         </tr>
                     </thead>

@@ -12,6 +12,11 @@ export const publicRoute = [
         name: "Home",
         Component: Home,
     },
+    {
+        path: "/home",
+        name: "Home",
+        Component: Home,
+    },
 
     {
         path: "/reviews",

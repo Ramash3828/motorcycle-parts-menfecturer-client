@@ -1,7 +1,8 @@
 import React from "react";
 
 const ManageProductRow = ({ allOrder, refetch, index }) => {
-    const { name, img, price, order, email, grandTotal } = allOrder;
+    const { name, img, price, order, email, userName, address, phone } =
+        allOrder;
 
     return (
         <tr>
@@ -15,10 +16,12 @@ const ManageProductRow = ({ allOrder, refetch, index }) => {
                     </div>
                 </div>
             </td>
-            <td>{email}</td>
             <td>{order}</td>
             <td>${price}</td>
-            <td>${grandTotal}</td>
+            <td>{userName}</td>
+            <td>{email}</td>
+            <td>{address}</td>
+            <td>${phone}</td>
             <td>
                 <button className="btn btn-xs bg-secondary">pending</button>
             </td>
