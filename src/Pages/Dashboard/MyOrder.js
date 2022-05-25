@@ -16,12 +16,7 @@ const MyOrder = () => {
             res.json()
         )
     );
-    const { data: count } = useQuery("reviewCount", () =>
-        fetch(`http://localhost:5000/add-review/count`).then((res) =>
-            res.json()
-        )
-    );
-    const reviewCount = count?.reviewCount;
+
     if (isLoading) {
         return <Loading />;
     }
@@ -48,7 +43,6 @@ const MyOrder = () => {
                         {orders?.map((order, index) => (
                             <OrdersRow
                                 key={order._id}
-                                reviewCount={reviewCount}
                                 index={index}
                                 order={order}
                                 refetch={refetch}

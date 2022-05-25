@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useParams } from "react-router-dom";
 import auth from "../../firebase.init";
-import Loading from "../../Shared/Loading/Loading";
+
 import { loadStripe } from "@stripe/stripe-js";
-import {
-    CardElement,
-    Elements,
-    useStripe,
-    useElements,
-} from "@stripe/react-stripe-js";
+// import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
+import { Elements } from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(
     "pk_test_51L3ESPBIdT4KTE6FN07exTA21obcnNEvrE2RGzFVTfDnkhmvaiRe24Psl6LBSAli6CmWN3aRvck6KaYrU7D9WRmr00MAIlUijZ"
@@ -22,25 +14,27 @@ const stripePromise = loadStripe(
 
 const Payment = () => {
     const [user] = useAuthState(auth);
-    const [product, setProduct] = useState([]);
+    const [products, setProducts] = useState([]);
 
     const { id } = useParams();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const { data: products, isLoading } = useQuery(["product", id], () =>
-        fetch(`http://localhost:5000/my-orders/${user.email}`).then((res) =>
-            res.json()
-        )
-    );
-
+    // const { data: products, isLoading } = useQuery(["product", id], () =>
+    //     fetch(`http://localhost:5000/my-orders/${user?.email}`).then((res) =>
+    //         res?.json()
+    //     )
+    // );
+    const email = user?.email;
     useEffect(() => {
-        const item = products?.find((product) => product._id === id);
-        setProduct(item);
-    }, [id, products]);
+        fetch(`http://localhost:5000/my-orders/${email}`)
+            .then((res) => res?.json())
+            .then((data) => setProducts(data));
+    }, [email]);
+    const product = products?.find((p) => p._id === id);
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    // if (isLoading) {
+    //     return <Loading />;
+    // }
 
     return (
         <div className=" mx-auto py-5 container px-11">
@@ -124,11 +118,11 @@ const Payment = () => {
                             </Link>
                         </button>
                     </div>
-                    <div class="card w-96 bg-base-100 shadow-xl">
+                    <div className="card w-96 bg-base-100 shadow-xl">
                         <div className="mt-11">
-                            <div class="card-body text-left">
+                            <div className="card-body text-left">
                                 <Elements stripe={stripePromise}>
-                                    <CheckoutForm />
+                                    <CheckoutForm product={product} />
                                 </Elements>
                             </div>
                         </div>

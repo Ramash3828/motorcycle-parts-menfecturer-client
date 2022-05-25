@@ -61,7 +61,7 @@ const Reviews = () => {
 
             <div className="carousel w-3/4 mx-auto shadow-lg">
                 <div id="slide1" className="carousel-item relative w-full">
-                    <div class="card my-5 text-center">
+                    <div className="card my-5 text-center">
                         <img id="person-img" src={review?.img} alt="" />
                         <div className="flex gap-3 w-full justify-center">
                             <ReactStars
@@ -72,12 +72,14 @@ const Reviews = () => {
                                 isHalf={true}
                             />
                         </div>
-                        <p class="person">{review?.productName}</p>
-                        <p class="designation my-3">
+                        <p className="person">{review?.productName}</p>
+                        <p className="designation my-3">
                             User Name: {review?.userName}
                         </p>
-                        <p class="designation my-3">Email: {review?.email}</p>
-                        <p class="text mx-11 px-11 pb-11">{review?.desc}</p>
+                        <p className="designation my-3">
+                            Email: {review?.email}
+                        </p>
+                        <p className="text mx-11 px-11 pb-11">{review?.desc}</p>
                     </div>
 
                     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
