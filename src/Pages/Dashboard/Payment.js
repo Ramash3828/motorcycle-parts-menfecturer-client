@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import auth from "../../firebase.init";
-import ReactStars from "react-rating-stars-component";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import Loading from "../../Shared/Loading/Loading";
-import { toast } from "react-toastify";
 
-const MyReview = () => {
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import auth from "../../firebase.init";
+import Loading from "../../Shared/Loading/Loading";
+
+const Payment = () => {
     const [user] = useAuthState(auth);
     const [product, setProduct] = useState([]);
-    const [ratings, setRatings] = useState(0);
 
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const { data: products, isLoading } = useQuery("product", () =>
+    const { data: products, isLoading } = useQuery(["product", id], () =>
         fetch(`http://localhost:5000/my-orders/${user.email}`).then((res) =>
             res.json()
         )
@@ -33,39 +32,16 @@ const MyReview = () => {
         reset();
     }, [id, products, reset]);
 
+    if (isLoading) {
+        return <Loading />;
+    }
     const ratingChanged = (newRating) => {
         setRatings(newRating);
     };
 
     const onSubmit = (data) => {
-        const review = {
-            email: data.userEmail,
-            userName: data.userName,
-            productName: data.productName,
-            desc: data.desc,
-            img: product?.img,
-            ratings: ratings,
-            reviewCount: 1,
-        };
-        const url = `http://localhost:5000/add-review/${product?._id}`;
-        fetch(url, {
-            method: "PUT",
-            body: JSON.stringify(review),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
-            .then((res) => res.json())
-            .then((reviewData) => {
-                console.log(reviewData);
-                toast.success(reviewData.message);
-                navigate("/dashboard/my-orders");
-            });
+        console.log(data);
     };
-
-    if (isLoading) {
-        return <Loading />;
-    }
 
     return (
         <div className=" mx-auto py-5 container px-11">
@@ -79,35 +55,51 @@ const MyReview = () => {
                             {" "}
                             <div className="text-left">
                                 <img src={product?.img} alt="name" />
-                                <p className="text-2xl text-secondary mb-4">
-                                    {product?.name}
+                                <p>
+                                    Hello{" "}
+                                    <span className="text-secondary">
+                                        {user?.displayName}
+                                    </span>
                                 </p>
                                 <p>
-                                    <strong>
-                                        Description:{" "}
-                                        {product?.desc ? product?.desc : ""}
-                                    </strong>
-                                </p>
-                                <p className="my-2">
-                                    <strong>Available Quantity: </strong>
-                                    {product?.quantity}
+                                    Address :{" "}
+                                    <span className="text-secondary">
+                                        {product?.address}
+                                    </span>
                                 </p>
                                 <p>
-                                    <strong>Price (per 1 product):</strong> $
-                                    {product?.price}
+                                    Phone :{" "}
+                                    <span className="text-secondary">
+                                        {product?.phone}
+                                    </span>
                                 </p>
-                            </div>
-                            <div className="flex gap-3 w-full items-center">
+                                <p className="text-2xl  mb-4">
+                                    Please Pay for :{" "}
+                                    <span className="text-secondary">
+                                        {product?.name}
+                                    </span>{" "}
+                                    product.
+                                </p>
                                 <p>
-                                    <strong>Ratings: </strong>
+                                    Your order quantity is{" "}
+                                    <span className="text-secondary">
+                                        {product?.order}
+                                    </span>{" "}
+                                    and price per product{" "}
+                                    <span className="text-secondary">
+                                        ${product?.price}
+                                    </span>{" "}
+                                    <strong>Total amount: </strong>
+                                    <span className="text-secondary">
+                                        ${product?.grandTotal}
+                                    </span>
                                 </p>
-                                <ReactStars
-                                    count={5}
-                                    value={2}
-                                    onChange={ratingChanged}
-                                    size={40}
-                                    isHalf={true}
-                                />
+                                <p className="text-2xl font-bold my-4">
+                                    Please pay your amount:{" "}
+                                    <span className="text-secondary">
+                                        ${product?.grandTotal}
+                                    </span>
+                                </p>
                             </div>
                         </>
                     ) : (
@@ -195,11 +187,4 @@ const MyReview = () => {
     );
 };
 
-export default MyReview;
-/**
-acknowledged: true
-matchedCount: 0
-modifiedCount: 0
-upsertedCount: 1
-upsertedId: "628d1cdf2786e802d79fc508"
-*/
+export default Payment;

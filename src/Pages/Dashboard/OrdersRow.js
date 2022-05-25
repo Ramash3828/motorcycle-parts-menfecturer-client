@@ -33,16 +33,18 @@ const OrdersRow = ({ index, order, refetch }) => {
             <td>${order.price}</td>
             <td>${order.quantity}</td>
             <td>
-                <button className="btn btn-xs bg-secondary">Payment</button>
+                <button className="btn btn-xs bg-secondary">
+                    {" "}
+                    <Link to={`/dashboard/payment/${_id}`}>Payment</Link>
+                </button>
+                <button className="btn btn-xs bg-purple-500">
+                    <Link to={`/dashboard/add-review/${_id}`}>Review</Link>
+                </button>
                 <button
                     onClick={handleDelete}
                     className="btn btn-xs bg-red-400"
                 >
                     Delete
-                </button>
-
-                <button className="btn btn-xs bg-purple-500">
-                    <Link to={`/dashboard/add-review/${_id}`}>Review</Link>
                 </button>
             </td>
         </tr>

@@ -13,7 +13,7 @@ const BusinessDetails = () => {
     return (
         <div>
             <div className="container text-center py-20">
-                <h2 className="text-5xl uppercase text-primary font-bold mb-7">
+                <h2 className="text-4xl uppercase text-primary font-bold mb-7">
                     Millions Business Trust us
                 </h2>
                 <p className="text-2xl text-secondary uppercase font-bold">

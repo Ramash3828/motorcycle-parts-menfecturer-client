@@ -17,6 +17,7 @@ import RequireAuth from "./RequireAuth";
 import MyOrder from "./Pages/Dashboard/MyOrder";
 import ManageProduct from "./Pages/Dashboard/ManageProduct";
 import MyReview from "./Pages/Dashboard/MyReview";
+import Payment from "./Pages/Dashboard/Payment";
 
 function App() {
     useEffect(() => {
@@ -41,6 +42,7 @@ function App() {
                             element={<ManageProduct />}
                         />
                         <Route path="add-review/:id" element={<MyReview />} />
+                        <Route path="payment/:id" element={<Payment />} />
                     </Route>
                 </Route>
             </Routes>

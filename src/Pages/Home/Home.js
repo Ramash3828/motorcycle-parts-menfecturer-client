@@ -1,5 +1,6 @@
 import React from "react";
 import banner from "../../images/banner2.jpg";
+import Reviews from "../Reviews";
 import BusinessDetails from "./BusinessDetails";
 import ProductCard from "./ProductCard";
 
@@ -24,6 +25,7 @@ const Home = () => {
                 </div>
             </div>
             <ProductCard />
+            <Reviews />
             <BusinessDetails />
         </>
     );

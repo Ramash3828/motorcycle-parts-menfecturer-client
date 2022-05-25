@@ -1,32 +1,40 @@
 import React, { useEffect, useState } from "react";
 import "./Reviews.css";
 import ReactStars from "react-rating-stars-component";
-import { useQuery } from "react-query";
-import Loading from "../Shared/Loading/Loading";
+// import { useQuery } from "react-query";
+// import Loading from "../Shared/Loading/Loading";
 
 // import SingleReview from "./SingleReview";
 
 const Reviews = () => {
-    // let [reviews, setReviews] = useState([]);
+    let [reviews, setReviews] = useState([]);
     let [currentIndex, setCurrentIndex] = useState(0);
-    const [ratings, setRatings] = useState(0);
+    // const [ratings, setRatings] = useState(0);
+    const [isLoaded, seIsLoaded] = useState(true);
 
-    const {
-        data: reviews,
-        isLoading,
-        refetch,
-    } = useQuery("reviews", () =>
-        fetch(`http://localhost:5000/add-review`).then((res) => res.json())
-    );
+    // const {
+    //     data: reviews,
+    //     isLoading,
+    //     refetch,
+    // } = useQuery("reviews", () =>
+    //     fetch(`http://localhost:5000/add-review`).then((res) => res.json())
+    // );
 
     useEffect(() => {
-        refetch();
-    }, [refetch]);
+        seIsLoaded(true);
+        fetch(`http://localhost:5000/add-review`)
+            .then((res) => res.json())
+            .then((data) => {
+                setReviews(data);
+            });
+        seIsLoaded(false);
+    }, [isLoaded]);
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    // if (isLoading) {
+    //     return <Loading />;
+    // }
     let review = reviews[currentIndex];
+    // setRatings(review?.ratings);
 
     function nextButton() {
         setCurrentIndex(++currentIndex);
@@ -41,21 +49,16 @@ const Reviews = () => {
             setCurrentIndex(reviews.length - 1);
         }
     }
-    const ratingChanged = (newRating) => {
-        setRatings(newRating);
-    };
+    // if (isLoaded) {
+    //     seIsLoaded(false);
+    // }
 
     return (
         <div className="container text-center py-20">
-            <h2>Review Section {reviews.length}</h2>
-            <ReactStars
-                count={5}
-                value={review?.ratings}
-                onChange={refetch()}
-                activeColor="#ffd700"
-                size={40}
-                isHalf={true}
-            />
+            <h2 className="text-4xl text-primary font-bold uppercase">
+                All Reviews
+            </h2>
+
             <div className="carousel w-3/4 mx-auto shadow-lg">
                 <div id="slide1" className="carousel-item relative w-full">
                     <div class="card my-5 text-center">
@@ -74,14 +77,20 @@ const Reviews = () => {
                             User Name: {review?.userName}
                         </p>
                         <p class="designation my-3">Email: {review?.email}</p>
-                        <p class="text">{review?.desc}</p>
+                        <p class="text mx-11 px-11 pb-11">{review?.desc}</p>
                     </div>
 
                     <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <button onClick={nextButton} className="btn btn-circle">
+                        <button
+                            onClick={nextButton}
+                            className="btn btn-circle bg-accent"
+                        >
                             ❮
                         </button>
-                        <button onClick={prevButton} className="btn btn-circle">
+                        <button
+                            onClick={prevButton}
+                            className="btn btn-circle bg-accent"
+                        >
                             ❯
                         </button>
                     </div>

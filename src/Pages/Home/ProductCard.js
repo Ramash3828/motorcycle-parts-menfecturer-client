@@ -17,7 +17,7 @@ const ProductCard = () => {
     return (
         <>
             <div className="container text-center py-11">
-                <h2 className="text-5xl text-primary text-bold mb-7">
+                <h2 className="text-4xl text-primary font-bold mb-7 uppercase">
                     Parts Recommended
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center  w-full gap-10 mt-11">
