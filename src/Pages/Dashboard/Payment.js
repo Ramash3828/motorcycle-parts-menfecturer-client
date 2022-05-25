@@ -7,6 +7,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 import Loading from "../../Shared/Loading/Loading";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+    CardElement,
+    Elements,
+    useStripe,
+    useElements,
+} from "@stripe/react-stripe-js";
+import CheckoutForm from "./CheckoutForm";
+
+const stripePromise = loadStripe(
+    "pk_test_51L3ESPBIdT4KTE6FN07exTA21obcnNEvrE2RGzFVTfDnkhmvaiRe24Psl6LBSAli6CmWN3aRvck6KaYrU7D9WRmr00MAIlUijZ"
+);
 
 const Payment = () => {
     const [user] = useAuthState(auth);
@@ -20,28 +32,15 @@ const Payment = () => {
             res.json()
         )
     );
-    const { register, handleSubmit, reset } = useForm({
-        defaultValues: {
-            userEmail: user?.email,
-            userName: user?.displayName,
-        },
-    });
+
     useEffect(() => {
         const item = products?.find((product) => product._id === id);
         setProduct(item);
-        reset();
-    }, [id, products, reset]);
+    }, [id, products]);
 
     if (isLoading) {
         return <Loading />;
     }
-    const ratingChanged = (newRating) => {
-        setRatings(newRating);
-    };
-
-    const onSubmit = (data) => {
-        console.log(data);
-    };
 
     return (
         <div className=" mx-auto py-5 container px-11">
@@ -125,62 +124,15 @@ const Payment = () => {
                             </Link>
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-control w-full ">
-                            <label className="label">
-                                <span className="label-text">User Name</span>
-                            </label>
-                            <input
-                                required
-                                type="text"
-                                className="input input-bordered w-full "
-                                {...register("userName")}
-                            />
+                    <div class="card w-96 bg-base-100 shadow-xl">
+                        <div className="mt-11">
+                            <div class="card-body text-left">
+                                <Elements stripe={stripePromise}>
+                                    <CheckoutForm />
+                                </Elements>
+                            </div>
                         </div>
-                        <div className="form-control w-full ">
-                            <label className="label">
-                                <span className="label-text">User Email</span>
-                            </label>
-                            <input
-                                required
-                                type="email"
-                                className="input input-bordered w-full "
-                                {...register("userEmail")}
-                            />
-                        </div>
-                        <div className="form-control w-full ">
-                            <label className="label">
-                                <span className="label-text">Product Name</span>
-                            </label>
-                            <input
-                                required
-                                type="text"
-                                className="input input-bordered w-full "
-                                {...register("productName")}
-                            />
-                        </div>
-                        <div className="form-control w-full ">
-                            <label className="label">
-                                <span className="label-text">
-                                    Description here
-                                </span>
-                            </label>
-                            <textarea
-                                required
-                                cols="30"
-                                rows="4"
-                                placeholder="Message"
-                                className="border  w-full p-2"
-                                {...register("desc")}
-                            />
-                        </div>
-
-                        <input
-                            type="submit"
-                            value="Add Review"
-                            className="btn  w-full text-white bg-primary mt-2"
-                        />
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
