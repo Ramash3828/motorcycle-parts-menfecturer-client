@@ -1,25 +1,21 @@
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "react-query";
-import auth from "../../firebase.init";
-import Loading from "../../Shared/Loading/Loading";
-import OrdersRow from "./OrdersRow";
+import Loading from "../../../Shared/Loading/Loading";
+import MakeAdminRow from "./MakeAdminRow";
 
-const MyOrder = () => {
-    const [user] = useAuthState(auth);
+const MakeAdmin = () => {
     const {
-        data: orders,
+        data: users,
         isLoading,
         refetch,
-    } = useQuery(["order", user], () =>
-        fetch(`http://localhost:5000/my-orders/${user.email}`, {
+    } = useQuery("user", () =>
+        fetch(`http://localhost:5000/users`, {
             method: "GET",
             headers: {
                 authorization: `bearer ${localStorage.getItem("accessToken")}`,
             },
         }).then((res) => res.json())
     );
-
     if (isLoading) {
         return <Loading />;
     }
@@ -27,27 +23,26 @@ const MyOrder = () => {
     return (
         <div>
             <h2 className="text-secondary font-bold text-2xl mb-3 bg-accent">
-                My Orders
+                Login users are here
             </h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
                         <tr>
                             <th>SL.</th>
-                            <th>Product Name</th>
-                            <th>Picture</th>
-                            <th>Order(QTY)</th>
-                            <th>price</th>
-                            <th>Product QTY</th>
+                            <th>User Name</th>
+
+                            <th>user Email</th>
+
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {orders?.map((order, index) => (
-                            <OrdersRow
-                                key={order._id}
+                        {users.map((user, index) => (
+                            <MakeAdminRow
+                                key={user._id}
                                 index={index}
-                                order={order}
+                                user={user}
                                 refetch={refetch}
                             />
                         ))}
@@ -58,4 +53,4 @@ const MyOrder = () => {
     );
 };
 
-export default MyOrder;
+export default MakeAdmin;

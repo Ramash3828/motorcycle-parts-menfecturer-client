@@ -6,7 +6,6 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 
 import { Route, Routes } from "react-router-dom";
-// import { publicRoute } from "./Routes/publicRoute";
 
 import Navbar from "./Shared/Navbar";
 import { publicRoute } from "./Routes/publicRoute";
@@ -15,9 +14,11 @@ import Dashboard from "./Pages/Dashboard/Dashboard";
 import AddProduct from "./Pages/Dashboard/AddProduct";
 import RequireAuth from "./RequireAuth";
 import MyOrder from "./Pages/Dashboard/MyOrder";
-import ManageProduct from "./Pages/Dashboard/ManageProduct";
+import ManageAllOrders from "./Pages/Dashboard/ManageAllOrders";
 import MyReview from "./Pages/Dashboard/MyReview";
 import Payment from "./Pages/Dashboard/Payment";
+import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
+import MakeAdmin from "./Pages/Dashboard/MakeAdmin/MakeAdmin";
 
 function App() {
     useEffect(() => {
@@ -39,10 +40,15 @@ function App() {
                         <Route path="my-orders" element={<MyOrder />} />
                         <Route
                             path="manage-all-product"
-                            element={<ManageProduct />}
+                            element={<ManageAllOrders />}
                         />
                         <Route path="add-review/:id" element={<MyReview />} />
                         <Route path="payment/:id" element={<Payment />} />
+                        <Route path="make-admin" element={<MakeAdmin />} />
+                        <Route
+                            path="manage-products"
+                            element={<ManageProducts />}
+                        />
                     </Route>
                 </Route>
             </Routes>

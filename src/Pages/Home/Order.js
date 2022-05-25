@@ -6,7 +6,7 @@ import auth from "../../firebase.init";
 
 const MyOrder = ({ item }) => {
     const [user] = useAuthState(auth);
-    const { name, price, img, desc, quantity } = item;
+    const { name, price, img, desc, quantity, _id } = item;
     const [sold, setSold] = useState(100);
 
     // const [userEmail, setUserEmail] = useState(user?.email);
@@ -15,7 +15,7 @@ const MyOrder = ({ item }) => {
     // const [proQuantity, setProQuantity] = useState(quantity);
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
-    const [errorInfo, setErrorInfo] = useState(true);
+    const [errorInfo, setErrorInfo] = useState(false);
     const navigate = useNavigate();
 
     const addProduct = (event) => {
@@ -40,6 +40,11 @@ const MyOrder = ({ item }) => {
             userName: user.displayName,
             email: user.email,
         };
+
+        const balance = Number(item.quantity) - Number(sold);
+        item["quantity"] = balance;
+        delete item._id;
+
         const url = `http://localhost:5000/add-order/`;
         fetch(url, {
             method: "POST",
@@ -57,6 +62,17 @@ const MyOrder = ({ item }) => {
                     navigate("/dashboard/my-orders");
                     toast.success(data.message);
                 }
+                fetch(`http://localhost:5000/update-product/${_id}`, {
+                    method: "PUT",
+                    body: JSON.stringify({ ...item }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((updateQty) => {
+                        console.log(updateQty);
+                    });
             });
     };
 
@@ -83,11 +99,6 @@ const MyOrder = ({ item }) => {
                             </p>
                         </div>
                         <div className="mx-auto">
-                            {errorInfo && (
-                                <p className="text-red-500">
-                                    <small>No available products</small>
-                                </p>
-                            )}
                             <form onSubmit={addProduct} className="mt-3">
                                 <input
                                     readOnly
@@ -150,7 +161,11 @@ const MyOrder = ({ item }) => {
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
                                     />
                                 </div>
-
+                                {errorInfo && (
+                                    <p className="text-red-500">
+                                        <small>No available products</small>
+                                    </p>
+                                )}
                                 <input
                                     disabled={
                                         sold < 100 || sold > Number(quantity)

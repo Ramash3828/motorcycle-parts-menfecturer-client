@@ -10,7 +10,7 @@ const Reviews = () => {
     let [reviews, setReviews] = useState([]);
     let [currentIndex, setCurrentIndex] = useState(0);
     // const [ratings, setRatings] = useState(0);
-    const [isLoaded, seIsLoaded] = useState(true);
+    const [isLoaded, seIsLoaded] = useState(false);
 
     // const {
     //     data: reviews,
@@ -22,12 +22,16 @@ const Reviews = () => {
 
     useEffect(() => {
         seIsLoaded(true);
-        fetch(`http://localhost:5000/add-review`)
+        fetch(`http://localhost:5000/review`, {
+            method: "GET",
+            headers: {
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 setReviews(data);
             });
-        seIsLoaded(false);
     }, [isLoaded]);
 
     // if (isLoading) {
@@ -41,6 +45,7 @@ const Reviews = () => {
         if (currentIndex > reviews.length - 1) {
             setCurrentIndex(0);
         }
+        seIsLoaded(false);
     }
     function prevButton() {
         setCurrentIndex(--currentIndex);
@@ -48,6 +53,7 @@ const Reviews = () => {
         if (currentIndex < 0) {
             setCurrentIndex(reviews.length - 1);
         }
+        seIsLoaded(false);
     }
     // if (isLoaded) {
     //     seIsLoaded(false);

@@ -17,9 +17,12 @@ const MyReview = () => {
     const navigate = useNavigate();
 
     const { data: products, isLoading } = useQuery("product", () =>
-        fetch(`http://localhost:5000/my-orders/${user.email}`).then((res) =>
-            res.json()
-        )
+        fetch(`http://localhost:5000/my-orders/${user.email}`, {
+            method: "GET",
+            headers: {
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        }).then((res) => res.json())
     );
     const { register, handleSubmit, reset } = useForm({
         defaultValues: {
@@ -47,12 +50,15 @@ const MyReview = () => {
             ratings: ratings,
             reviewCount: 1,
         };
-        const url = `http://localhost:5000/add-review/${product?._id}`;
+
+        // Add Review to database
+        const url = `http://localhost:5000/review/${product?._id}`;
         fetch(url, {
             method: "PUT",
             body: JSON.stringify(review),
             headers: {
-                "Content-type": "application/json; charset=UTF-8",
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
             },
         })
             .then((res) => res.json())

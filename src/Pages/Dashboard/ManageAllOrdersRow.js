@@ -1,6 +1,6 @@
 import React from "react";
 
-const ManageProductRow = ({ allOrder, refetch, index }) => {
+const ManageAllOrdersRow = ({ allOrder, refetch, index }) => {
     const { name, img, price, order, email, userName, address, phone } =
         allOrder;
 
@@ -29,4 +29,4 @@ const ManageProductRow = ({ allOrder, refetch, index }) => {
     );
 };
 
-export default ManageProductRow;
+export default ManageAllOrdersRow;

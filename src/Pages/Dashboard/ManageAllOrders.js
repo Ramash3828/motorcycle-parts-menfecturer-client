@@ -1,15 +1,20 @@
 import React from "react";
 import { useQuery } from "react-query";
 import Loading from "../../Shared/Loading/Loading";
-import ManageProductRow from "./ManageProductRow";
+import ManageAllOrdersRow from "./ManageAllOrdersRow";
 
-const ManageProduct = () => {
+const ManageAllOrders = () => {
     const {
         data: allOrders,
         isLoading,
         refetch,
     } = useQuery("allOrders", () =>
-        fetch(`http://localhost:5000/all-orders`).then((res) => res.json())
+        fetch(`http://localhost:5000/all-orders`, {
+            method: "GET",
+            headers: {
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        }).then((res) => res.json())
     );
     if (isLoading) {
         return <Loading />;
@@ -17,7 +22,7 @@ const ManageProduct = () => {
     return (
         <div>
             <h2 className="text-secondary font-bold text-2xl mb-3">
-                Manage All Product
+                Manage All Orders
             </h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
@@ -37,7 +42,7 @@ const ManageProduct = () => {
                     </thead>
                     <tbody>
                         {allOrders?.map((allOrder, index) => (
-                            <ManageProductRow
+                            <ManageAllOrdersRow
                                 key={allOrder._id}
                                 allOrder={allOrder}
                                 refetch={refetch}
@@ -51,4 +56,4 @@ const ManageProduct = () => {
     );
 };
 
-export default ManageProduct;
+export default ManageAllOrders;
