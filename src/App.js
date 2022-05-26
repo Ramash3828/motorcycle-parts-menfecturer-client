@@ -19,6 +19,8 @@ import MyReview from "./Pages/Dashboard/MyReview";
 import Payment from "./Pages/Dashboard/Payment";
 import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
 import MakeAdmin from "./Pages/Dashboard/MakeAdmin/MakeAdmin";
+import MyProfile from "./Pages/Dashboard/MyProfile/MyProfile";
+import UpdateProfile from "./Pages/Dashboard/MyProfile/UpdateProfile";
 
 function App() {
     useEffect(() => {
@@ -48,6 +50,11 @@ function App() {
                         <Route
                             path="manage-products"
                             element={<ManageProducts />}
+                        />
+                        <Route path="my-profile" element={<MyProfile />} />
+                        <Route
+                            path="update-profile/:updateId"
+                            element={<UpdateProfile />}
                         />
                     </Route>
                 </Route>

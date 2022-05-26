@@ -67,6 +67,9 @@ const MyOrder = ({ item }) => {
                     body: JSON.stringify({ ...item }),
                     headers: {
                         "Content-type": "application/json; charset=UTF-8",
+                        authorization: `bearer ${localStorage.getItem(
+                            "accessToken"
+                        )}`,
                     },
                 })
                     .then((res) => res.json())
