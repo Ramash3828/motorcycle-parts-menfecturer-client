@@ -5,7 +5,7 @@ import MakeAdminRow from "./MakeAdminRow";
 
 const MakeAdmin = () => {
     const {
-        data: users,
+        data: userData,
         isLoading,
         refetch,
     } = useQuery("user", () =>
@@ -38,7 +38,7 @@ const MakeAdmin = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) => (
+                        {userData.map((user, index) => (
                             <MakeAdminRow
                                 key={user._id}
                                 index={index}

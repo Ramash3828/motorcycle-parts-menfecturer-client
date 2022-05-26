@@ -2,6 +2,22 @@ import React from "react";
 import profilePic from "../images/ramash.jfif";
 
 const MyPortfolio = () => {
+    const projectOne = () => {
+        window.open(
+            "https://jpylvtq5flcxrrrzq7vzya.on.drv.tw/HomeWork/chillaid/",
+            "_blank"
+        );
+    };
+    const projectTwo = () => {
+        window.open(
+            "https://jpylvtq5flcxrrrzq7vzya.on.drv.tw/HomeWork/new%20project/",
+            "_blank"
+        );
+    };
+    const projectThree = () => {
+        window.open("https://psd-to-html.ramashhalder.repl.co/");
+    };
+
     return (
         <div className="py-11">
             <div className="container py-5 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -18,6 +34,37 @@ const MyPortfolio = () => {
                     </h4>
                     <p>ramash3828@gmail.com</p>
                     <p>Facebook: Ramash Halder</p>
+                    <div>
+                        <h3 className="text-primary text-2xl font-bold my-4">
+                            Previous Practice projects live link:
+                        </h3>
+                        <ul>
+                            <li>
+                                <button
+                                    onClick={projectOne}
+                                    class="btn btn-link"
+                                >
+                                    Project 1
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={projectTwo}
+                                    class="btn btn-link"
+                                >
+                                    Project 1
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={projectThree}
+                                    class="btn btn-link"
+                                >
+                                    Project 1
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="">
                     <div className="skill text-left">

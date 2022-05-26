@@ -9,8 +9,10 @@ import {
     useCreateUserWithEmailAndPassword,
     useUpdateProfile,
 } from "react-firebase-hooks/auth";
+import { useState } from "react";
 
 const SignUp = () => {
+    const [userName, setUserName] = useState("");
     const {
         register,
         handleSubmit,
@@ -29,9 +31,29 @@ const SignUp = () => {
 
     useEffect(() => {
         if (user) {
+            const email = user?.user.email;
+            navigate(from, { replace: true });
+            const currentUser = {
+                email: email,
+                name: userName,
+            };
+
+            fetch(`http://localhost:5000/add-user/${email}`, {
+                method: "PUT",
+                body: JSON.stringify(currentUser),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    const accessToken = data?.token;
+                    localStorage.setItem("accessToken", accessToken);
+                });
+
             navigate(from, { replace: true });
         }
-    }, [user, navigate, from, token]);
+    }, [user, navigate, from, token, userName]);
 
     if (loading || updating) {
         return <Loading></Loading>;
@@ -42,9 +64,9 @@ const SignUp = () => {
     }
 
     const onSubmit = async (data) => {
+        setUserName(data.name);
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({ displayName: data.name });
-        navigate("/");
     };
     return (
         <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4">
@@ -144,7 +166,7 @@ const SignUp = () => {
                 </form>
                 <p className="text-left">
                     All ready have an account?{" "}
-                    <Link className="text-primary" to="/login">
+                    <Link className="text-secondary" to="/login">
                         Please Login
                     </Link>
                 </p>

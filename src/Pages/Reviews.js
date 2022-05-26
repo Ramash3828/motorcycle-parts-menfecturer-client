@@ -9,16 +9,8 @@ import ReactStars from "react-rating-stars-component";
 const Reviews = () => {
     let [reviews, setReviews] = useState([]);
     let [currentIndex, setCurrentIndex] = useState(0);
-    // const [ratings, setRatings] = useState(0);
+    const [ratings, setRatings] = useState(4);
     const [isLoaded, seIsLoaded] = useState(false);
-
-    // const {
-    //     data: reviews,
-    //     isLoading,
-    //     refetch,
-    // } = useQuery("reviews", () =>
-    //     fetch(`http://localhost:5000/add-review`).then((res) => res.json())
-    // );
 
     useEffect(() => {
         seIsLoaded(true);
@@ -34,11 +26,11 @@ const Reviews = () => {
             });
     }, [isLoaded]);
 
-    // if (isLoading) {
-    //     return <Loading />;
-    // }
     let review = reviews[currentIndex];
-    // setRatings(review?.ratings);
+
+    useEffect(() => {
+        setRatings(review?.ratings);
+    }, [review]);
 
     function nextButton() {
         setCurrentIndex(++currentIndex);
@@ -72,7 +64,7 @@ const Reviews = () => {
                         <div className="flex gap-3 w-full justify-center">
                             <ReactStars
                                 count={5}
-                                value={review?.ratings}
+                                value={ratings}
                                 size={40}
                                 activeColor="#ffd700"
                                 isHalf={true}

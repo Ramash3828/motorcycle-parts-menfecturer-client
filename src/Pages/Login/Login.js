@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import useToken from "../../hooks/useToken";
+
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "./SocialLogin";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
@@ -15,7 +15,6 @@ const Login = () => {
     } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
-    const token = useToken(user);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -23,9 +22,26 @@ const Login = () => {
 
     useEffect(() => {
         if (user) {
-            navigate(from, { replace: true });
+            const email = user?.user.email;
+            const name = user?.user.displayName;
+            const currentUser = {
+                email: email,
+                name: name,
+            };
+            fetch(`http://localhost:5000/add-user/${email}`, {
+                method: "PUT",
+                body: JSON.stringify(currentUser),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    const accessToken = data?.token;
+                    localStorage.setItem("accessToken", accessToken);
+                });
         }
-    }, [from, navigate, user, token]);
+    }, [from, navigate, user]);
 
     if (loading) {
         return <Loading></Loading>;
@@ -39,6 +55,7 @@ const Login = () => {
 
     const onSubmit = (data) => {
         signInWithEmailAndPassword(data.email, data.password);
+        navigate(from, { replace: true });
     };
     return (
         <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4">
@@ -114,8 +131,8 @@ const Login = () => {
                     {errMessage}
                 </form>
                 <p className="text-left">
-                    New to Doctors Portal?{" "}
-                    <Link className="text-primary" to="/signup">
+                    New to PHM Parts Co.?{" "}
+                    <Link className="text-secondary" to="/signup">
                         Please Sign Up
                     </Link>
                 </p>

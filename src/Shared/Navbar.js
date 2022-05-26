@@ -40,7 +40,7 @@ const Navbar = () => {
             <li>
                 {user && (
                     <button className="btn btn-outline">
-                        {user.displayName}
+                        {user.displayName ? user.displayName : "USER"}
                     </button>
                 )}
             </li>

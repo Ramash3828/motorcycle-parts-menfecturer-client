@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
-import useToken from "../../hooks/useToken";
 
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, googleError] =
@@ -10,7 +9,7 @@ const SocialLogin = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    const token = useToken(user);
+
     let errorInfo;
     if (googleError) {
         errorInfo = (
@@ -22,9 +21,27 @@ const SocialLogin = () => {
 
     useEffect(() => {
         if (user) {
+            const email = user?.user.email;
+            const name = user?.user.displayName;
+            const currentUser = {
+                email: email,
+                name: name,
+            };
+            fetch(`http://localhost:5000/add-user/${email}`, {
+                method: "PUT",
+                body: JSON.stringify(currentUser),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    const accessToken = data?.token;
+                    localStorage.setItem("accessToken", accessToken);
+                });
             navigate(from, { replace: true });
         }
-    }, [from, navigate, user, token]);
+    }, [from, navigate, user]);
     if (loading) {
         return <p>Loading....</p>;
     }

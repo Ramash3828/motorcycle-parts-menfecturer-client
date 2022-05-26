@@ -32,9 +32,14 @@ const MakeAdminRow = ({ user, index, refetch }) => {
             <td>{email}</td>
 
             <td>
-                <button onClick={makeAdmin} className="btn btn-xs bg-secondary">
-                    Make Admin
-                </button>
+                {!user.role && (
+                    <button
+                        onClick={makeAdmin}
+                        className="btn btn-xs bg-secondary"
+                    >
+                        Make Admin
+                    </button>
+                )}
             </td>
         </tr>
     );

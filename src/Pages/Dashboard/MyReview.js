@@ -52,7 +52,7 @@ const MyReview = () => {
         };
 
         // Add Review to database
-        const url = `http://localhost:5000/review/${product?._id}`;
+        const url = `http://localhost:5000/add-review/${product?._id}`;
         fetch(url, {
             method: "PUT",
             body: JSON.stringify(review),
