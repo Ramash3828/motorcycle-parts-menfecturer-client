@@ -21,6 +21,7 @@ import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
 import MakeAdmin from "./Pages/Dashboard/MakeAdmin/MakeAdmin";
 import MyProfile from "./Pages/Dashboard/MyProfile/MyProfile";
 import UpdateProfile from "./Pages/Dashboard/MyProfile/UpdateProfile";
+import UpdateProduct from "./Pages/Dashboard/UpdateProduct";
 
 function App() {
     useEffect(() => {
@@ -39,6 +40,10 @@ function App() {
                 <Route element={<RequireAuth />}>
                     <Route path="/dashboard/" element={<Dashboard />}>
                         <Route path="add-product" element={<AddProduct />} />
+                        <Route
+                            path="update-product/:id"
+                            element={<UpdateProduct />}
+                        />
                         <Route path="my-orders" element={<MyOrder />} />
                         <Route
                             path="manage-all-product"
@@ -55,6 +60,10 @@ function App() {
                         <Route
                             path="update-profile/:updateId"
                             element={<UpdateProfile />}
+                        />
+                        <Route
+                            path="update-product/:id"
+                            element={<UpdateProduct />}
                         />
                     </Route>
                 </Route>

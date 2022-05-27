@@ -37,8 +37,8 @@ const MyOrder = ({ item }) => {
             quantity: quantity,
             order: sold,
             grandTotal: grandTotal,
-            userName: user.displayName,
-            email: user.email,
+            userName: user?.displayName,
+            email: user?.email,
         };
 
         const balance = Number(item.quantity) - Number(sold);
@@ -61,21 +61,21 @@ const MyOrder = ({ item }) => {
                     setPhone("");
                     navigate("/dashboard/my-orders");
                     toast.success(data.message);
+
+                    // Update quantity
+                    fetch(`http://localhost:5000/update-product/${_id}`, {
+                        method: "PUT",
+                        body: JSON.stringify({ ...item }),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8",
+                            authorization: `bearer ${localStorage.getItem(
+                                "accessToken"
+                            )}`,
+                        },
+                    })
+                        .then((res) => res.json())
+                        .then((updateQty) => {});
                 }
-                fetch(`http://localhost:5000/update-product/${_id}`, {
-                    method: "PUT",
-                    body: JSON.stringify({ ...item }),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8",
-                        authorization: `bearer ${localStorage.getItem(
-                            "accessToken"
-                        )}`,
-                    },
-                })
-                    .then((res) => res.json())
-                    .then((updateQty) => {
-                        console.log(updateQty);
-                    });
             });
     };
 

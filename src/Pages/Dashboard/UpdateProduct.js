@@ -1,19 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
+
 // https://agile-reef-29566.herokuapp.com/
-const AddProduct = () => {
+
+const UpdateProduct = () => {
+    const imagebbKey = "78b51101c93df6505232dd1a07d4af99";
+    const { id } = useParams();
+    const [products, setProducts] = useState([]);
+    const [newItem, setNewItem] = useState([]);
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
-
+        reset,
         formState: { errors },
     } = useForm();
-    const navigate = useNavigate();
 
-    const imagebbKey = "78b51101c93df6505232dd1a07d4af99";
+    useEffect(() => {
+        const url = `http://localhost:5000/get-product`;
+        fetch(url, {
+            method: "GET",
+            headers: {
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                setNewItem(result);
+            });
+    }, [id]);
+    const item = newItem?.find((p) => p._id === id);
+
+    useEffect(() => {
+        setProducts({
+            partsName: item?.name,
+            partsPrice: item?.price,
+            partsQty: item?.quantity,
+            partsDesc: item?.desc,
+            image: item?.img,
+        });
+    }, [item?.name, item?.price, item?.quantity, item?.desc, item?.img]);
+    useEffect(() => {
+        reset(products);
+    }, [reset, products]);
 
     const onSubmit = async (data) => {
         const image = data.image[0];
@@ -28,6 +62,7 @@ const AddProduct = () => {
             .then((result) => {
                 if (result.success) {
                     const img = result.data.url;
+
                     const product = {
                         name: data.partsName,
                         desc: data.partsDesc,
@@ -35,8 +70,8 @@ const AddProduct = () => {
                         img: img,
                         price: data.partsPrice,
                     };
-                    fetch(`http://localhost:5000/add-product`, {
-                        method: "POST",
+                    fetch(`http://localhost:5000/update-product/${id}`, {
+                        method: "PUT",
                         body: JSON.stringify(product),
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
@@ -46,11 +81,10 @@ const AddProduct = () => {
                         },
                     })
                         .then((res) => res.json())
-                        .then((data) => {
-                            if (data.insertedId) {
-                                toast.success(`Data insert successfully`);
-
-                                navigate("/dashboard/add-product");
+                        .then((UpdateData) => {
+                            if (UpdateData.result.acknowledged) {
+                                toast.success(UpdateData.message);
+                                navigate("/dashboard/manage-products");
                             }
                         });
                 }
@@ -58,7 +92,9 @@ const AddProduct = () => {
     };
     return (
         <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4 p-4">
-            <h2 className="text-1xl font-bold text-secondary">Add Product</h2>
+            <h2 className="text-1xl font-bold text-secondary uppercase">
+                Update Product
+            </h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-control w-full ">
                     <label className="label">
@@ -111,7 +147,7 @@ const AddProduct = () => {
                         <span className="label-text">Product Price</span>
                     </label>
                     <input
-                        type="text"
+                        type="number"
                         placeholder="Product Price"
                         className="input input-bordered w-full "
                         {...register("partsPrice", {
@@ -185,4 +221,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default UpdateProduct;

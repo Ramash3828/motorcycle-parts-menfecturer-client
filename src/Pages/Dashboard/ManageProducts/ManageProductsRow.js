@@ -6,18 +6,23 @@ const ManageProductsRow = ({ product, index, refetch }) => {
     const { name, img, desc, price, quantity, _id } = product;
 
     const handleProductDelete = () => {
-        const url = `http://localhost:5000/product-delete/${_id}`;
-        fetch(url, {
-            method: "DELETE",
-            headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                toast.success(data.message);
-                refetch();
-            });
+        const confirmMessage = window.confirm("Are you shore delete Order?");
+        if (confirmMessage) {
+            const url = `http://localhost:5000/product-delete/${_id}`;
+            fetch(url, {
+                method: "DELETE",
+                headers: {
+                    authorization: `bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    toast.success(data.message);
+                    refetch();
+                });
+        }
     };
 
     return (
@@ -25,8 +30,8 @@ const ManageProductsRow = ({ product, index, refetch }) => {
             <td>{index + 1}</td>
             <td>
                 {" "}
-                <div class="avatar">
-                    <div class="w-16 rounded">
+                <div className="avatar">
+                    <div className="w-16 rounded">
                         <img src={img} alt={name} />
                     </div>
                 </div>
@@ -37,7 +42,7 @@ const ManageProductsRow = ({ product, index, refetch }) => {
             <td>{quantity}</td>
             <td>
                 <button className="btn btn-xs bg-purple-500">
-                    <Link to={`/dashboard/add-product/${_id}`}>Update</Link>
+                    <Link to={`/dashboard/update-product/${_id}`}>Update</Link>
                 </button>
                 <button
                     onClick={handleProductDelete}
