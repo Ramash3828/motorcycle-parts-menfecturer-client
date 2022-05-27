@@ -16,12 +16,6 @@ const Dashboard = () => {
                 />
                 <div className="drawer-content ">
                     <Outlet />
-                    <label
-                        htmlFor="my-drawer-2"
-                        className="btn btn-primary drawer-button lg:hidden"
-                    >
-                        Open drawer
-                    </label>
                 </div>
                 <div className="drawer-side shadow-lg">
                     <label

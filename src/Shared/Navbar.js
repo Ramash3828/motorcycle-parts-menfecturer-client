@@ -50,6 +50,26 @@ const Navbar = () => {
         <header className="bg-accent sticky top-0 py-4 z-50">
             <div className="flex justify-between flex-wrap  container mx-auto">
                 <div className="flex justify-between w-full md:w-0 items-center">
+                    <label
+                        tabIndex="0"
+                        htmlFor="my-drawer-2"
+                        className="btn btn-primary drawer-button lg:hidden"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M4 6h16M4 12h16M4 18h7"
+                            />
+                        </svg>
+                    </label>
                     <Link to="/" className="btn btn-ghost normal-case text-xl">
                         PHM Parts Co.
                     </Link>
