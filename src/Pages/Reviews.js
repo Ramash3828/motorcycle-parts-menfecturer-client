@@ -10,10 +10,8 @@ const Reviews = () => {
     let [reviews, setReviews] = useState([]);
     let [currentIndex, setCurrentIndex] = useState(0);
     const [ratings, setRatings] = useState(4);
-    const [isLoaded, seIsLoaded] = useState(false);
 
     useEffect(() => {
-        seIsLoaded(true);
         fetch(`http://localhost:5000/review`, {
             method: "GET",
             headers: {
@@ -24,32 +22,30 @@ const Reviews = () => {
             .then((data) => {
                 setReviews(data);
             });
-    }, [isLoaded]);
+    }, []);
 
     let review = reviews[currentIndex];
 
     useEffect(() => {
-        setRatings(review?.ratings);
-    }, [review]);
+        if (review) {
+            setRatings(review?.ratings);
+        }
+    }, [review?.ratings, review]);
 
     function nextButton() {
         setCurrentIndex(++currentIndex);
-        if (currentIndex > reviews.length - 1) {
+        if (currentIndex > reviews?.length - 1) {
             setCurrentIndex(0);
         }
-        seIsLoaded(false);
     }
+
     function prevButton() {
         setCurrentIndex(--currentIndex);
 
         if (currentIndex < 0) {
-            setCurrentIndex(reviews.length - 1);
+            setCurrentIndex(reviews?.length - 1);
         }
-        seIsLoaded(false);
     }
-    // if (isLoaded) {
-    //     seIsLoaded(false);
-    // }
 
     return (
         <div className="container text-center py-20">

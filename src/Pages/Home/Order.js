@@ -6,35 +6,31 @@ import auth from "../../firebase.init";
 
 const MyOrder = ({ item }) => {
     const [user] = useAuthState(auth);
-    const { name, price, img, desc, quantity, _id } = item;
+
     const [sold, setSold] = useState(100);
 
-    // const [userEmail, setUserEmail] = useState(user?.email);
-    // const [userName, setUserName] = useState(user?.displayName);
-    // const [productPrice, setProductPrice] = useState(price);
-    // const [proQuantity, setProQuantity] = useState(quantity);
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [errorInfo, setErrorInfo] = useState(false);
     const navigate = useNavigate();
 
-    const addProduct = (event) => {
+    const Order = (event) => {
         event.preventDefault();
-        if (sold > Number(quantity) || sold < 100) {
+        if (sold > Number(item?.quantity) || sold < 100) {
             return setErrorInfo(!errorInfo);
         } else {
             setErrorInfo(false);
         }
-        const grandTotal = Number(sold) * Number(price);
+        const grandTotal = Number(sold) * Number(item?.price);
 
         const orderBooking = {
-            name: name,
-            img: img,
+            name: item?.name,
+            img: item?.img,
             address: address,
             phone: phone,
-            desc: desc,
-            price: price,
-            quantity: quantity,
+            desc: item?.desc,
+            price: item?.price,
+            quantity: item?.quantity,
             order: sold,
             grandTotal: grandTotal,
             userName: user?.displayName,
@@ -43,7 +39,7 @@ const MyOrder = ({ item }) => {
 
         const balance = Number(item.quantity) - Number(sold);
         item["quantity"] = balance;
-        delete item._id;
+        delete item?._id;
 
         const url = `http://localhost:5000/add-order/`;
         fetch(url, {
@@ -55,15 +51,15 @@ const MyOrder = ({ item }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.result.insertedId) {
+                if (data?.result.insertedId) {
                     setSold(100);
                     setAddress("");
                     setPhone("");
-                    navigate("/dashboard/my-orders");
-                    toast.success(data.message);
+
+                    toast.success(data?.message);
 
                     // Update quantity
-                    fetch(`http://localhost:5000/update-product/${_id}`, {
+                    fetch(`http://localhost:5000/update-product/${item?._id}`, {
                         method: "PUT",
                         body: JSON.stringify({ ...item }),
                         headers: {
@@ -75,6 +71,7 @@ const MyOrder = ({ item }) => {
                     })
                         .then((res) => res.json())
                         .then((updateQty) => {});
+                    navigate("/dashboard/my-orders");
                 }
             });
     };
@@ -86,23 +83,24 @@ const MyOrder = ({ item }) => {
                 <div className="modal-box">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 justify-center ">
                         <div className="mx-auto">
-                            <img src={img} alt="name" />
+                            <img src={item?.img} alt="name" />
                             <p className="text-2xl text-secondary mb-4">
-                                {name}
+                                {item?.name}
                             </p>
                             <p>
-                                <strong>Description:</strong> {desc}
+                                <strong>Description:</strong> {item?.desc}
                             </p>
                             <p className="my-2">
                                 <strong>Available Quantity:</strong>
-                                {quantity}
+                                {item?.quantity}
                             </p>
                             <p>
-                                <strong>Price (per 1 product):</strong>${price}
+                                <strong>Price (per 1 product):</strong>$
+                                {item?.price}
                             </p>
                         </div>
                         <div className="mx-auto">
-                            <form onSubmit={addProduct} className="mt-3">
+                            <form onSubmit={Order} className="mt-3">
                                 <input
                                     readOnly
                                     value={user?.displayName}
@@ -135,7 +133,7 @@ const MyOrder = ({ item }) => {
                                     </label>
                                     <input
                                         readOnly
-                                        value={quantity}
+                                        value={item?.quantity}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
                                     />
@@ -146,7 +144,7 @@ const MyOrder = ({ item }) => {
                                     </label>
                                     <input
                                         readOnly
-                                        value={price}
+                                        value={item?.price}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
                                     />
@@ -171,7 +169,8 @@ const MyOrder = ({ item }) => {
                                 )}
                                 <input
                                     disabled={
-                                        sold < 100 || sold > Number(quantity)
+                                        sold < 100 ||
+                                        sold > Number(item?.quantity)
                                             ? true
                                             : false
                                     }

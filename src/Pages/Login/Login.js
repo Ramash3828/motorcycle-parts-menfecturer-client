@@ -5,9 +5,16 @@ import auth from "../../firebase.init";
 
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "./SocialLogin";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import {
+    useSendPasswordResetEmail,
+    useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
+
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 const Login = () => {
+    const [inputEmail, setInputEmail] = useState("");
     const {
         register,
         handleSubmit,
@@ -15,10 +22,13 @@ const Login = () => {
     } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
+    const [sendPasswordResetEmail, sending, resetError] =
+        useSendPasswordResetEmail(auth);
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
+    let errMessage;
 
     useEffect(() => {
         if (user) {
@@ -40,25 +50,40 @@ const Login = () => {
                     const accessToken = data?.token;
                     localStorage.setItem("accessToken", accessToken);
                 });
+            navigate(from, { replace: true });
         }
     }, [from, navigate, user]);
 
-    if (loading) {
-        return <Loading></Loading>;
-    }
-    let errMessage;
-    if (error) {
+    if (error || resetError) {
         errMessage = (
-            <p className="text-red-500 text-left my-2">{error.message}</p>
+            <p className="text-red-500 text-left my-2">
+                {error?.message}
+                {resetError?.message}{" "}
+            </p>
         );
     }
+    if (loading || sending) {
+        return <Loading></Loading>;
+    }
 
-    const onSubmit = (data) => {
-        signInWithEmailAndPassword(data.email, data.password);
-        navigate(from, { replace: true });
+    const onSubmit = async (data) => {
+        setInputEmail(data?.email);
+        await signInWithEmailAndPassword(data?.email, data?.password);
     };
+
+    // Reset Password
+    const resetPassword = async () => {
+        if (inputEmail) {
+            console.log(inputEmail);
+            await sendPasswordResetEmail("ramash3828@gmail.com");
+            toast("Sent email");
+        } else {
+            toast("Please Enter your email.");
+        }
+    };
+
     return (
-        <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4">
+        <div className="card mx-auto lg:max-w-lg bg-base-100 shadow-xl mt-4 my-11 h-full">
             <div className="card-body text-center">
                 <h2 className="text-2xl font-bold uppercase">Login</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -123,18 +148,27 @@ const Login = () => {
                             </span>
                         </label>
                     </div>
+                    {errMessage}
                     <input
                         type="submit"
                         value="Login"
                         className="btn  w-full text-white bg-primary"
                     />
-                    {errMessage}
                 </form>
                 <p className="text-left">
                     New to PHM Parts Co.?{" "}
                     <Link className="text-secondary" to="/signup">
                         Please Sign Up
                     </Link>
+                </p>
+                <p style={{ textAlign: "left" }}>
+                    Forget Password?{" "}
+                    <button
+                        onClick={resetPassword}
+                        className="btn btn-link reset-btn text-start text-decoration-none"
+                    >
+                        Reset Password
+                    </button>
                 </p>
                 <SocialLogin></SocialLogin>
             </div>

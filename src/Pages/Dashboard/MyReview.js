@@ -12,6 +12,7 @@ const MyReview = () => {
     const [user] = useAuthState(auth);
     const [product, setProduct] = useState([]);
     const [ratings, setRatings] = useState(0);
+    const [inputData, setInputData] = useState("");
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -24,30 +25,37 @@ const MyReview = () => {
             },
         }).then((res) => res.json())
     );
-    const { register, handleSubmit, reset } = useForm({
-        defaultValues: {
-            userEmail: user?.email,
-            userName: user?.displayName,
-        },
-    });
+    const { register, handleSubmit, reset } = useForm();
     useEffect(() => {
         const item = products?.find((product) => product._id === id);
         setProduct(item);
-        reset();
     }, [id, products, reset]);
+
+    useEffect(() => {
+        setInputData({
+            userEmail: user?.email,
+            userName: user?.displayName,
+            productName: product?.name,
+            productRatings: ratings,
+        });
+    }, [user?.email, user?.displayName, product?.name, ratings]);
+    useEffect(() => {
+        reset(inputData);
+    }, [inputData, reset]);
 
     const ratingChanged = (newRating) => {
         setRatings(newRating);
     };
 
     const onSubmit = (data) => {
+        console.log(data.productRatings);
         const review = {
             email: data.userEmail,
             userName: data.userName,
             productName: data.productName,
             desc: data.desc,
             img: product?.img,
-            ratings: ratings,
+            ratings: data.productRatings,
             reviewCount: 1,
         };
 
@@ -63,7 +71,6 @@ const MyReview = () => {
         })
             .then((res) => res.json())
             .then((reviewData) => {
-                console.log(reviewData);
                 toast.success(reviewData.message);
                 navigate("/dashboard/my-orders");
             });
@@ -145,7 +152,7 @@ const MyReview = () => {
                                 <span className="label-text">User Name</span>
                             </label>
                             <input
-                                required
+                                disabled
                                 type="text"
                                 className="input input-bordered w-full "
                                 {...register("userName")}
@@ -156,7 +163,7 @@ const MyReview = () => {
                                 <span className="label-text">User Email</span>
                             </label>
                             <input
-                                required
+                                disabled
                                 type="email"
                                 className="input input-bordered w-full "
                                 {...register("userEmail")}
@@ -167,10 +174,21 @@ const MyReview = () => {
                                 <span className="label-text">Product Name</span>
                             </label>
                             <input
-                                required
+                                disabled
                                 type="text"
                                 className="input input-bordered w-full "
                                 {...register("productName")}
+                            />
+                        </div>
+                        <div className="form-control w-full ">
+                            <label className="label">
+                                <span className="label-text">Ratings</span>
+                            </label>
+                            <input
+                                disabled
+                                type="text"
+                                className="input input-bordered w-full "
+                                {...register("productRatings")}
                             />
                         </div>
                         <div className="form-control w-full ">
