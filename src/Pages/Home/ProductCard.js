@@ -7,8 +7,17 @@ import SingleCard from "./SingleCard";
 const ProductCard = () => {
     const [item, setItem] = useState({});
 
-    const { data: products, isloading } = useQuery("products", () =>
-        fetch(`http://localhost:5000/get-product`).then((res) => res.json())
+    const { data: products, isloading } = useQuery(
+        ["products", item, setItem],
+        () =>
+            fetch(`http://localhost:5000/get-product`, {
+                method: "GET",
+                headers: {
+                    authorization: `bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+            }).then((res) => res.json())
     );
     if (isloading) {
         return <Loading />;

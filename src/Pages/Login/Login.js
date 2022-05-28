@@ -5,16 +5,9 @@ import auth from "../../firebase.init";
 
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "./SocialLogin";
-import {
-    useSendPasswordResetEmail,
-    useSignInWithEmailAndPassword,
-} from "react-firebase-hooks/auth";
-
-import { toast } from "react-toastify";
-import { useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 const Login = () => {
-    const [inputEmail, setInputEmail] = useState("");
     const {
         register,
         handleSubmit,
@@ -22,14 +15,11 @@ const Login = () => {
     } = useForm();
     const [signInWithEmailAndPassword, user, loading, error] =
         useSignInWithEmailAndPassword(auth);
-    const [sendPasswordResetEmail, sending, resetError] =
-        useSendPasswordResetEmail(auth);
 
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     let errMessage;
-
     useEffect(() => {
         if (user) {
             const email = user?.user.email;
@@ -54,32 +44,17 @@ const Login = () => {
         }
     }, [from, navigate, user]);
 
-    if (error || resetError) {
+    if (error) {
         errMessage = (
-            <p className="text-red-500 text-left my-2">
-                {error?.message}
-                {resetError?.message}{" "}
-            </p>
+            <p className="text-red-500 text-left my-2">{error?.message}</p>
         );
     }
-    if (loading || sending) {
+    if (loading) {
         return <Loading></Loading>;
     }
 
     const onSubmit = async (data) => {
-        setInputEmail(data?.email);
         await signInWithEmailAndPassword(data?.email, data?.password);
-    };
-
-    // Reset Password
-    const resetPassword = async () => {
-        if (inputEmail) {
-            console.log(inputEmail);
-            await sendPasswordResetEmail("ramash3828@gmail.com");
-            toast("Sent email");
-        } else {
-            toast("Please Enter your email.");
-        }
     };
 
     return (
@@ -164,7 +139,7 @@ const Login = () => {
                 <p style={{ textAlign: "left" }}>
                     Forget Password?{" "}
                     <button
-                        onClick={resetPassword}
+                        onClick={() => navigate("/rest-password")}
                         className="btn btn-link reset-btn text-start text-decoration-none"
                     >
                         Reset Password

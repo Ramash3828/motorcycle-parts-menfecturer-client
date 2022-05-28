@@ -1,5 +1,6 @@
 import Blogs from "../Pages/Blogs";
 import Home from "../Pages/Home/Home";
+import ResetPassword from "../Pages/Home/ResetPassword";
 import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Login/SignUp";
 import MyPortfolio from "../Pages/MyPortfolio";
@@ -37,6 +38,11 @@ export const publicRoute = [
         path: "/login",
         name: "Login",
         Component: Login,
+    },
+    {
+        path: "/rest-password",
+        name: "ResetPassword",
+        Component: ResetPassword,
     },
     {
         path: "/signup",
