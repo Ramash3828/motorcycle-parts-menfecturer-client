@@ -1,33 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import auth from "../../firebase.init";
 
-const MyOrder = ({ item }) => {
+const Order = ({ item }) => {
     const [user] = useAuthState(auth);
-
+    const { _id } = item;
     const [sold, setSold] = useState(100);
+    const [products, setProducts] = useState("");
 
-    const [address, setAddress] = useState("");
-    const [phone, setPhone] = useState("");
-    const [errorInfo, setErrorInfo] = useState(false);
     const navigate = useNavigate();
+    const { register, handleSubmit, reset } = useForm();
+    useEffect(() => {
+        setProducts({
+            userName: user?.displayName,
+            userEmail: user?.email,
+            partsName: item?.name,
+            partsPrice: item?.price,
+            partsQty: item?.quantity,
+        });
+    }, [
+        item?.name,
+        item?.price,
+        item?.quantity,
+        item?.img,
+        user?.displayName,
+        user?.email,
+        sold,
+    ]);
+    useEffect(() => {
+        reset(products);
+    }, [reset, products]);
 
-    const Order = (event) => {
-        event.preventDefault();
-        if (sold > Number(item?.quantity) || sold < 100) {
-            return setErrorInfo(!errorInfo);
-        } else {
-            setErrorInfo(false);
-        }
+    const onSubmit = (data) => {
         const grandTotal = Number(sold) * Number(item?.price);
 
         const orderBooking = {
             name: item?.name,
             img: item?.img,
-            address: address,
-            phone: phone,
+            address: data?.address,
+            phone: data?.phone,
             desc: item?.desc,
             price: item?.price,
             quantity: item?.quantity,
@@ -37,7 +51,7 @@ const MyOrder = ({ item }) => {
             email: user?.email,
         };
 
-        const balance = Number(item.quantity) - Number(sold);
+        const balance = Number(item?.quantity) - Number(sold);
         item["quantity"] = balance;
         delete item?._id;
 
@@ -53,13 +67,11 @@ const MyOrder = ({ item }) => {
             .then((data) => {
                 if (data?.result.insertedId) {
                     setSold(100);
-                    setAddress("");
-                    setPhone("");
 
                     toast.success(data?.message);
 
                     // Update quantity
-                    fetch(`http://localhost:5000/update-product/${item?._id}`, {
+                    fetch(`http://localhost:5000/update-product/${_id}`, {
                         method: "PUT",
                         body: JSON.stringify({ ...item }),
                         headers: {
@@ -100,42 +112,39 @@ const MyOrder = ({ item }) => {
                             </p>
                         </div>
                         <div className="mx-auto">
-                            <form onSubmit={Order} className="mt-3">
+                            <form onSubmit={handleSubmit(onSubmit)}>
                                 <input
-                                    readOnly
-                                    value={user?.displayName}
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    {...register("userName")}
                                 />
                                 <input
-                                    readOnly
-                                    value={user?.email}
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    {...register("userEmail")}
                                 />
                                 <input
                                     required
-                                    onChange={(e) => setAddress(e.target.value)}
                                     placeholder="Address"
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    {...register("address")}
                                 />
                                 <input
                                     required
-                                    onChange={(e) => setPhone(e.target.value)}
                                     placeholder="Phone Number"
                                     type="number"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
+                                    {...register("phone")}
                                 />
                                 <div>
                                     <label htmlFor="">
                                         <small>Available Quantity</small>
                                     </label>
                                     <input
-                                        readOnly
-                                        value={item?.quantity}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
+                                        {...register("partsQty")}
                                     />
                                 </div>
                                 <div>
@@ -143,10 +152,9 @@ const MyOrder = ({ item }) => {
                                         <small>Product Price (Per piece)</small>
                                     </label>
                                     <input
-                                        readOnly
-                                        value={item?.price}
                                         type="number"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
+                                        {...register("partsPrice")}
                                     />
                                 </div>
                                 <div>
@@ -157,20 +165,25 @@ const MyOrder = ({ item }) => {
                                         onChange={(e) =>
                                             setSold(e.target.value)
                                         }
-                                        value={Number(sold)}
+                                        value={sold}
                                         type="number"
+                                        name="partsSold"
                                         className="input input-bordered input-info w-full max-w-xs mb-2"
+                                        // {...register("partsSold")}
                                     />
                                 </div>
-                                {errorInfo && (
-                                    <p className="text-red-500">
-                                        <small>No available products</small>
-                                    </p>
-                                )}
+
+                                <p className="text-red-500">
+                                    <small>
+                                        {sold < 100 || sold > item?.quantity
+                                            ? `You must be input 100 to ${item?.quantity}`
+                                            : ""}
+                                    </small>
+                                </p>
+
                                 <input
                                     disabled={
-                                        sold < 100 ||
-                                        sold > Number(item?.quantity)
+                                        sold < 100 || sold > item?.quantity
                                             ? true
                                             : false
                                     }
@@ -196,4 +209,4 @@ const MyOrder = ({ item }) => {
     );
 };
 
-export default MyOrder;
+export default Order;
