@@ -39,16 +39,16 @@ const ContactPage = () => {
                                         id="exampleFormControlTextarea4"
                                         rows="3"
                                     ></textarea>
-                                    <div class=" mt-5">
+                                    <div className=" mt-5">
                                         <div>
                                             {" "}
                                             <input
                                                 type="text"
                                                 placeholder="Your email"
-                                                class="input input-bordered w-full max-w-xl"
+                                                className="input input-bordered w-full max-w-xl"
                                             />
                                         </div>
-                                        <button class="btn btn-wide w-full btn-secondary mt-4">
+                                        <button className="btn btn-wide w-full btn-secondary mt-4">
                                             Email
                                         </button>
                                     </div>

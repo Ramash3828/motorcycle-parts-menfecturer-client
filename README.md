@@ -6,6 +6,7 @@ Github Client site Link [Motorcycle Parts Manufacturer](https://github.com/progr
 
 ## Package use in the Project
 
+-   Nodemailer
 -   firebase
 -   react-firebase-hooks
 -   react-dom

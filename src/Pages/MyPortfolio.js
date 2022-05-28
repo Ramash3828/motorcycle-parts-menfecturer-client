@@ -42,7 +42,7 @@ const MyPortfolio = () => {
                             <li>
                                 <button
                                     onClick={projectOne}
-                                    class="btn btn-link"
+                                    className="btn btn-link"
                                 >
                                     Project 1
                                 </button>
@@ -50,7 +50,7 @@ const MyPortfolio = () => {
                             <li>
                                 <button
                                     onClick={projectTwo}
-                                    class="btn btn-link"
+                                    className="btn btn-link"
                                 >
                                     Project 1
                                 </button>
@@ -58,7 +58,7 @@ const MyPortfolio = () => {
                             <li>
                                 <button
                                     onClick={projectThree}
-                                    class="btn btn-link"
+                                    className="btn btn-link"
                                 >
                                     Project 1
                                 </button>
