@@ -8,7 +8,7 @@ const ProductCard = () => {
     const [item, setItem] = useState({});
 
     const { data: products, isloading } = useQuery("products", () =>
-        fetch(`http://localhost:5000/get-product`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/get-product`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,

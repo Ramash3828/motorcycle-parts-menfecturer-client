@@ -8,7 +8,7 @@ const ManageProductsRow = ({ product, index, refetch }) => {
     const handleProductDelete = () => {
         const confirmMessage = window.confirm("Are you shore delete Order?");
         if (confirmMessage) {
-            const url = `http://localhost:5000/product-delete/${_id}`;
+            const url = `https://agile-reef-29566.herokuapp.com/product-delete/${_id}`;
             fetch(url, {
                 method: "DELETE",
                 headers: {

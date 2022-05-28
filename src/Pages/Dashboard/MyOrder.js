@@ -12,13 +12,18 @@ const MyOrder = () => {
         isLoading,
         refetch,
     } = useQuery(["order", user], () =>
-        fetch(`http://localhost:5000/my-orders/${user.email}`, {
-            method: "GET",
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                "Content-type": "application/json",
-            },
-        }).then((res) => res.json())
+        fetch(
+            `https://agile-reef-29566.herokuapp.com/my-orders/${user.email}`,
+            {
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                    "Content-type": "application/json",
+                },
+            }
+        ).then((res) => res.json())
     );
 
     if (isLoading) {

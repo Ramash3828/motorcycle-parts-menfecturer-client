@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [findUsers, setFiendUsers] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/users`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,

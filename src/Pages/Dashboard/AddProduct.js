@@ -35,16 +35,20 @@ const AddProduct = () => {
                         img: img,
                         price: data.partsPrice,
                     };
-                    fetch(`http://localhost:5000/add-product`, {
-                        method: "POST",
-                        body: JSON.stringify(product),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                            authorization: `Bearer ${localStorage.getItem(
-                                "accessToken"
-                            )}`,
-                        },
-                    })
+                    fetch(
+                        `https://agile-reef-29566.herokuapp.com/add-product`,
+                        {
+                            method: "POST",
+                            body: JSON.stringify(product),
+                            headers: {
+                                "Content-type":
+                                    "application/json; charset=UTF-8",
+                                authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                )}`,
+                            },
+                        }
+                    )
                         .then((res) => res.json())
                         .then((data) => {
                             if (data.insertedId) {

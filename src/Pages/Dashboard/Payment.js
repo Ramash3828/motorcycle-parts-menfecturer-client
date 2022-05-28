@@ -20,13 +20,13 @@ const Payment = () => {
     // const navigate = useNavigate();
 
     // const { data: products, isLoading } = useQuery(["product", id], () =>
-    //     fetch(`http://localhost:5000/my-orders/${user?.email}`).then((res) =>
+    //     fetch(`https://agile-reef-29566.herokuapp.com/my-orders/${user?.email}`).then((res) =>
     //         res?.json()
     //     )
     // );
     const email = user?.email;
     useEffect(() => {
-        fetch(`http://localhost:5000/my-orders/${email}`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/my-orders/${email}`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,

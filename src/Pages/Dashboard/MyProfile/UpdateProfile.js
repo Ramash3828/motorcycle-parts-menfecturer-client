@@ -12,7 +12,7 @@ const UpdateProfile = () => {
     const navigate = useNavigate();
 
     const { data: userData, isLoading } = useQuery("user", () =>
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/users`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -53,7 +53,7 @@ const UpdateProfile = () => {
             phone: data?.phone,
         };
 
-        fetch(`http://localhost:5000/add-user/${email}`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/add-user/${email}`, {
             method: "PUT",
             body: JSON.stringify(user),
             headers: {

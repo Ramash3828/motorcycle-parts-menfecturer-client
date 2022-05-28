@@ -8,7 +8,7 @@ const useAdmin = () => {
     const [admins, setAdmins] = useState("");
     const [adminLoading, setAdminLoading] = useState(true);
     const [user] = useAuthState(auth);
-    fetch(`http://localhost:5000/admin/${user?.email}`, {
+    fetch(`https://agile-reef-29566.herokuapp.com/admin/${user?.email}`, {
         method: "GET",
         headers: {
             "Content-type": "application/json",

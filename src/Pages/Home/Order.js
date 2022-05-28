@@ -58,7 +58,7 @@ const Order = ({ item }) => {
         item["quantity"] = balance;
         delete item?._id;
 
-        const url = `http://localhost:5000/add-order/`;
+        const url = `https://agile-reef-29566.herokuapp.com/add-order/`;
         fetch(url, {
             method: "POST",
             body: JSON.stringify(orderBooking),
@@ -75,16 +75,20 @@ const Order = ({ item }) => {
                     toast.success(data?.message);
 
                     // Update quantity
-                    fetch(`http://localhost:5000/update-product/${_id}`, {
-                        method: "PUT",
-                        body: JSON.stringify({ ...item }),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                            authorization: `Bearer ${localStorage.getItem(
-                                "accessToken"
-                            )}`,
-                        },
-                    })
+                    fetch(
+                        `https://agile-reef-29566.herokuapp.com/update-product/${_id}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify({ ...item }),
+                            headers: {
+                                "Content-type":
+                                    "application/json; charset=UTF-8",
+                                authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                )}`,
+                            },
+                        }
+                    )
                         .then((res) => res.json())
                         .then((updateQty) => {});
                     navigate("/dashboard/my-orders");

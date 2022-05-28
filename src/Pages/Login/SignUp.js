@@ -38,7 +38,7 @@ const SignUp = () => {
                 name: userName,
             };
 
-            fetch(`http://localhost:5000/add-user/${email}`, {
+            fetch(`https://agile-reef-29566.herokuapp.com/add-user/${email}`, {
                 method: "PUT",
                 body: JSON.stringify(currentUser),
                 headers: {

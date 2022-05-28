@@ -12,7 +12,7 @@ const Reviews = () => {
     const [ratings, setRatings] = useState(4);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/review`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/review`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,

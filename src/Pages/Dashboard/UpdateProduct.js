@@ -22,7 +22,7 @@ const UpdateProduct = () => {
     } = useForm();
 
     useEffect(() => {
-        const url = `http://localhost:5000/get-product`;
+        const url = `https://agile-reef-29566.herokuapp.com/get-product`;
         fetch(url, {
             method: "GET",
             headers: {
@@ -70,16 +70,20 @@ const UpdateProduct = () => {
                         img: img,
                         price: data.partsPrice,
                     };
-                    fetch(`http://localhost:5000/update-product/${id}`, {
-                        method: "PUT",
-                        body: JSON.stringify(product),
-                        headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                            authorization: `Bearer ${localStorage.getItem(
-                                "accessToken"
-                            )}`,
-                        },
-                    })
+                    fetch(
+                        `https://agile-reef-29566.herokuapp.com/update-product/${id}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(product),
+                            headers: {
+                                "Content-type":
+                                    "application/json; charset=UTF-8",
+                                authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                )}`,
+                            },
+                        }
+                    )
                         .then((res) => res.json())
                         .then((UpdateData) => {
                             if (UpdateData.result.acknowledged) {

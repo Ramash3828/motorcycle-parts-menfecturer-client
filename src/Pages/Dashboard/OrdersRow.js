@@ -6,9 +6,12 @@ const OrdersRow = ({ index, order, refetch }) => {
     const handleDelete = () => {
         const confirmMessage = window.confirm("Are you shore delete Order?");
         if (confirmMessage) {
-            fetch(`http://localhost:5000/delete-orders/${order?._id}`, {
-                method: "DELETE",
-            }).then((res) =>
+            fetch(
+                `https://agile-reef-29566.herokuapp.com/delete-orders/${order?._id}`,
+                {
+                    method: "DELETE",
+                }
+            ).then((res) =>
                 res.json().then((data) => {
                     toast.success(data?.message);
                     refetch();

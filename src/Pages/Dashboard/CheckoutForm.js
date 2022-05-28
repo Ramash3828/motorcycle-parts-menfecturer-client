@@ -83,7 +83,7 @@ const CheckoutForm = ({ product }) => {
                 bookingId: _id,
                 transactionId: paymentIntent.id,
             };
-            fetch(`http://localhost:5000/booking/${_id}`, {
+            fetch(`https://agile-reef-29566.herokuapp.com/booking/${_id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json",

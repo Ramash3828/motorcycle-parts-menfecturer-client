@@ -5,12 +5,17 @@ const MakeAdminRow = ({ userData, index, refetch }) => {
     console.log(userData);
 
     const makeAdmin = () => {
-        fetch(`http://localhost:5000/user/admin/${userData?.email}`, {
-            method: "PUT",
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-        })
+        fetch(
+            `https://agile-reef-29566.herokuapp.com/user/admin/${userData?.email}`,
+            {
+                method: "PUT",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+            }
+        )
             .then((res) => {
                 if (res.status === 403) {
                     toast.error("You cannot make an Admin");

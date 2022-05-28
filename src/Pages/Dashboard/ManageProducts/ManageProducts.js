@@ -4,7 +4,7 @@ import Loading from "../../../Shared/Loading/Loading";
 import ManageProductsRow from "./ManageProductsRow";
 
 const ManageProducts = () => {
-    const url = `http://localhost:5000/get-product`;
+    const url = `https://agile-reef-29566.herokuapp.com/get-product`;
     const {
         data: products,
         isLoading,

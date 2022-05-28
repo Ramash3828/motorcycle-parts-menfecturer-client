@@ -18,12 +18,17 @@ const MyReview = () => {
     const navigate = useNavigate();
 
     const { data: products, isLoading } = useQuery("product", () =>
-        fetch(`http://localhost:5000/my-orders/${user.email}`, {
-            method: "GET",
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-        }).then((res) => res.json())
+        fetch(
+            `https://agile-reef-29566.herokuapp.com/my-orders/${user.email}`,
+            {
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+            }
+        ).then((res) => res.json())
     );
     const { register, handleSubmit, reset } = useForm();
     useEffect(() => {
@@ -60,7 +65,7 @@ const MyReview = () => {
         };
 
         // Add Review to database
-        const url = `http://localhost:5000/add-review/${product?._id}`;
+        const url = `https://agile-reef-29566.herokuapp.com/add-review/${product?._id}`;
         fetch(url, {
             method: "PUT",
             body: JSON.stringify(review),

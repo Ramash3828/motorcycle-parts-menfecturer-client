@@ -9,7 +9,7 @@ const MyProfile = () => {
         isLoading,
         refetch,
     } = useQuery("user", () =>
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://agile-reef-29566.herokuapp.com/users`, {
             method: "GET",
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`,
