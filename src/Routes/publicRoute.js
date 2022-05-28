@@ -6,6 +6,7 @@ import SignUp from "../Pages/Login/SignUp";
 import MyPortfolio from "../Pages/MyPortfolio";
 import Reviews from "../Pages/Reviews";
 import NotFound from "../Shared/NotFound";
+import ContactPage from "../Pages/Home/ContactPage/ContactPage";
 
 export const publicRoute = [
     {
@@ -33,6 +34,11 @@ export const publicRoute = [
         path: "/myportfolio",
         name: "MyPortfolio",
         Component: MyPortfolio,
+    },
+    {
+        path: "/contact",
+        name: "ContactPage",
+        Component: ContactPage,
     },
     {
         path: "/login",

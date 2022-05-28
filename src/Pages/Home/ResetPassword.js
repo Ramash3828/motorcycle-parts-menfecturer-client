@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import auth from "../../firebase.init";
 import Loading from "../../Shared/Loading/Loading";
 
 const ResetPassword = () => {
-    const [inputEmail, setInputEmail] = useState("");
     const {
         register,
         handleSubmit,

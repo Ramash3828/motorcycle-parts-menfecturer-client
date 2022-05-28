@@ -26,7 +26,13 @@ const Payment = () => {
     // );
     const email = user?.email;
     useEffect(() => {
-        fetch(`http://localhost:5000/my-orders/${email}`)
+        fetch(`http://localhost:5000/my-orders/${email}`, {
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
+            },
+        })
             .then((res) => res?.json())
             .then((data) => setProducts(data));
     }, [email]);

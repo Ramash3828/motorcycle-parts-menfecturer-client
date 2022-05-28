@@ -40,7 +40,7 @@ const AddProduct = () => {
                         body: JSON.stringify(product),
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
-                            authorization: `bearer ${localStorage.getItem(
+                            authorization: `Bearer ${localStorage.getItem(
                                 "accessToken"
                             )}`,
                         },

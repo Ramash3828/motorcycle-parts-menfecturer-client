@@ -2,6 +2,7 @@ import React from "react";
 import banner from "../../images/banner2.jpg";
 import Reviews from "../Reviews";
 import BusinessDetails from "./BusinessDetails";
+import ContactPage from "./ContactPage/ContactPage";
 import ProductCard from "./ProductCard";
 
 const Home = () => {
@@ -27,6 +28,7 @@ const Home = () => {
             <ProductCard />
             <Reviews />
             <BusinessDetails />
+            <ContactPage />
         </>
     );
 };

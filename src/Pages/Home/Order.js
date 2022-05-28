@@ -36,6 +36,9 @@ const Order = ({ item }) => {
 
     const onSubmit = (data) => {
         const grandTotal = Number(sold) * Number(item?.price);
+        if (!data.userEmail && !data.userName) {
+            toast.error("You are not an user");
+        }
 
         const orderBooking = {
             name: item?.name,
@@ -60,12 +63,13 @@ const Order = ({ item }) => {
             method: "POST",
             body: JSON.stringify(orderBooking),
             headers: {
-                "Content-type": "application/json; charset=UTF-8",
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
             },
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data?.result.insertedId) {
+                if (data?.result?.insertedId) {
                     setSold(100);
 
                     toast.success(data?.message);
@@ -76,7 +80,7 @@ const Order = ({ item }) => {
                         body: JSON.stringify({ ...item }),
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
-                            authorization: `bearer ${localStorage.getItem(
+                            authorization: `Bearer ${localStorage.getItem(
                                 "accessToken"
                             )}`,
                         },
@@ -114,11 +118,15 @@ const Order = ({ item }) => {
                         <div className="mx-auto">
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <input
+                                    required
+                                    readOnly
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                     {...register("userName")}
                                 />
                                 <input
+                                    required
+                                    readOnly
                                     type="text"
                                     className="input input-bordered input-info w-full max-w-xs mb-2"
                                     {...register("userEmail")}

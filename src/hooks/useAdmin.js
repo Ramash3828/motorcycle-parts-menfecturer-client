@@ -1,12 +1,15 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
 
-const useAdmin = (user) => {
+const useAdmin = () => {
     const [admin, setAdmin] = useState("");
+    const [admins, setAdmins] = useState("");
     const [adminLoading, setAdminLoading] = useState(true);
-    const email = user?.email;
-    fetch(`http://localhost:5000/admin/${email}`, {
+    const [user] = useAuthState(auth);
+    fetch(`http://localhost:5000/admin/${user?.email}`, {
         method: "GET",
-
         headers: {
             "Content-type": "application/json",
             authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -14,10 +17,14 @@ const useAdmin = (user) => {
     })
         .then((res) => res.json())
         .then((data) => {
-            setAdmin(data.admin);
+            setAdmins(data.admin);
             setAdminLoading(false);
         });
 
+    useEffect(() => {
+        const [adminUser] = admins;
+        setAdmin(adminUser);
+    }, [admins]);
     return [admin, adminLoading];
 };
 

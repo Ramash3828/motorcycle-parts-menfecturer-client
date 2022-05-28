@@ -39,6 +39,7 @@ function App() {
                 ))}
                 <Route element={<RequireAuth />}>
                     <Route path="/dashboard/" element={<Dashboard />}>
+                        <Route index element={<MyProfile />} />
                         <Route path="add-product" element={<AddProduct />} />
                         <Route
                             path="update-product/:id"

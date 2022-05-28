@@ -26,7 +26,7 @@ const UpdateProduct = () => {
         fetch(url, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => res.json())
@@ -75,7 +75,7 @@ const UpdateProduct = () => {
                         body: JSON.stringify(product),
                         headers: {
                             "Content-type": "application/json; charset=UTF-8",
-                            authorization: `bearer ${localStorage.getItem(
+                            authorization: `Bearer ${localStorage.getItem(
                                 "accessToken"
                             )}`,
                         },

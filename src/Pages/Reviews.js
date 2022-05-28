@@ -15,7 +15,7 @@ const Reviews = () => {
         fetch(`http://localhost:5000/review`, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => res.json())

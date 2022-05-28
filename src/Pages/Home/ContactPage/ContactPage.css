@@ -1,0 +1,36 @@
+.location-area {
+    background-color: #f5f9fd;
+}
+.contact-btn {
+    border: none;
+    background-color: transparent;
+}
+button.contact-btn i {
+    display: inline-block;
+    font-size: 25px;
+    width: 45px;
+    height: 45px;
+    border: 1px solid #253858;
+    line-height: 43px;
+    text-align: center;
+    margin: 0 10px;
+    color: #253858;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+button.contact-btn i:hover {
+    color: #ffffff;
+    background-color: #253858;
+}
+input.email-form.input.input-bordered {
+    width: 100% !important;
+    display: block;
+}

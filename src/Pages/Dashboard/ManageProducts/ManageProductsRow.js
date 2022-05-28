@@ -12,7 +12,7 @@ const ManageProductsRow = ({ product, index, refetch }) => {
             fetch(url, {
                 method: "DELETE",
                 headers: {
-                    authorization: `bearer ${localStorage.getItem(
+                    authorization: `Bearer ${localStorage.getItem(
                         "accessToken"
                     )}`,
                 },

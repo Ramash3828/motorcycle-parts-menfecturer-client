@@ -8,7 +8,7 @@ const MakeAdminRow = ({ userData, index, refetch }) => {
         fetch(`http://localhost:5000/user/admin/${userData?.email}`, {
             method: "PUT",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => {

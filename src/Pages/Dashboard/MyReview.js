@@ -21,7 +21,7 @@ const MyReview = () => {
         fetch(`http://localhost:5000/my-orders/${user.email}`, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         }).then((res) => res.json())
     );
@@ -65,7 +65,7 @@ const MyReview = () => {
             method: "PUT",
             body: JSON.stringify(review),
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-type": "application/json",
             },
         })

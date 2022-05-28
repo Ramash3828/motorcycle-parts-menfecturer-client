@@ -15,7 +15,8 @@ const UpdateProfile = () => {
         fetch(`http://localhost:5000/users`, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
             },
         }).then((res) => res.json())
     );
@@ -57,7 +58,7 @@ const UpdateProfile = () => {
             body: JSON.stringify(user),
             headers: {
                 "Content-type": "application/json",
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         })
             .then((res) => res.json())

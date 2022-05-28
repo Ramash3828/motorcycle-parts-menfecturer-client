@@ -12,7 +12,8 @@ const MyProfile = () => {
         fetch(`http://localhost:5000/users`, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
             },
         }).then((res) => res.json())
     );
@@ -22,7 +23,7 @@ const MyProfile = () => {
     return (
         <div>
             <h2 className="text-secondary font-bold text-2xl mb-3 bg-accent">
-                My Orders
+                User Profile
             </h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">

@@ -13,7 +13,7 @@ const ManageProducts = () => {
         fetch(url, {
             method: "GET",
             headers: {
-                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
         }).then((res) => res.json())
     );

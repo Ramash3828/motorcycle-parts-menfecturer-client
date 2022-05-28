@@ -2,26 +2,31 @@ import React, { useEffect, useState } from "react";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 const CheckoutForm = ({ product }) => {
-    // const { userName, userEmail, address } = product;
+    const _id = product?._id;
+    const stripe = useStripe();
+    const elements = useElements();
     const [cardError, setCardError] = useState("");
     const [cardSuccess, setCardSuccess] = useState("");
     const [transactionId, setTransactionId] = useState("");
+    const [process, setProcess] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
-    const stripe = useStripe();
-    const elements = useElements();
+
     const price = product?.price;
 
     useEffect(() => {
         fetch(`/create-payment-intent`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                "Content-type": "application/json",
+            },
             body: JSON.stringify({ price: price }),
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.clientSecret) {
-                    console.log(data.clientSecret);
-                    setClientSecret(data.clientSecret);
+                if (data?.clientSecret) {
+                    console.log(data?.clientSecret);
+                    setClientSecret(data?.clientSecret);
                 }
             });
     }, [product, price]);
@@ -34,7 +39,7 @@ const CheckoutForm = ({ product }) => {
         }
         const card = elements.getElement(CardElement);
 
-        if (card == null) {
+        if (card === null) {
             return;
         }
         const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -48,8 +53,9 @@ const CheckoutForm = ({ product }) => {
         } else {
             setCardError("");
             console.log("[PaymentMethod]", paymentMethod);
+            setCardSuccess("");
+            setProcess(true);
         }
-        setCardSuccess("");
         // Confirm Payment
         const { paymentIntent, payError } = await stripe.confirmCardPayment(
             clientSecret,
@@ -64,14 +70,34 @@ const CheckoutForm = ({ product }) => {
                 },
             }
         );
-        console.log(clientSecret);
+
         if (payError) {
             setCardError(payError?.message);
+            setProcess(false);
         } else {
             setCardError("");
             setTransactionId(paymentIntent?.id);
             console.log(paymentIntent);
             setCardSuccess("Congratulation !!!");
+            const payment = {
+                bookingId: _id,
+                transactionId: paymentIntent.id,
+            };
+            fetch(`http://localhost:5000/booking/${_id}`, {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+                body: JSON.stringify(payment),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setProcess(false);
+                    console.log(data);
+                });
         }
     };
 
