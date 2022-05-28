@@ -24,6 +24,7 @@ const ManageAllOrdersRow = ({ allOrder, refetch, index }) => {
             <td>${phone}</td>
             <td>
                 <button className="btn btn-xs bg-secondary">pending</button>
+                <button className="btn btn-xs bg-secondary">Cancel</button>
             </td>
         </tr>
     );

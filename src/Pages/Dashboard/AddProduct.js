@@ -54,7 +54,7 @@ const AddProduct = () => {
                             if (data.insertedId) {
                                 toast.success(`Data insert successfully`);
 
-                                navigate("/dashboard/add-product");
+                                navigate("/");
                             }
                         });
                 }
